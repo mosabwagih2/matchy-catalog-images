@@ -1,0 +1,125 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "eyebrow": "إطلالات للحظاتكم الحلوة.",
+        "heading": "شبهك في الروح.\nوشبهك في اللوك.",
+        "text": "<p>إطلالات متناسقة ليك وللبنت.<br>مقاسات مختلفة، وحكاية واحدة حلوة.</p>",
+        "link_label": "اكتشف الأطقم",
+        "image": "shopify://shop_images/matchy-hero.jpg"
+      }
+    },
+    "promos": {
+      "type": "category-promos",
+      "blocks": {
+        "matching": {
+          "type": "promo",
+          "settings": {
+            "title": "الأم والبنت",
+            "description": "إطلالة تجمعكم.",
+            "collection": "matching"
+          }
+        },
+        "women": {
+          "type": "promo",
+          "settings": {
+            "title": "للأم",
+            "description": "إطلالة بطريقتك.",
+            "collection": "women"
+          }
+        },
+        "kids": {
+          "type": "promo",
+          "settings": {
+            "title": "للبنت",
+            "description": "تفاصيل صغيرة، وشخصية كبيرة.",
+            "collection": "kids"
+          }
+        }
+      },
+      "block_order": [
+        "matching",
+        "women",
+        "kids"
+      ],
+      "settings": {
+        "heading": "إطلالة تشبهكم، سوا.",
+        "subheading": "اختر الطقم كامل، أو القطعة اللي تحبها."
+      }
+    },
+    "picks": {
+      "type": "featured-rail",
+      "settings": {
+        "heading": "مختاراتنا للأم والبنت",
+        "subheading": "ست إطلالات لذكرياتكم الجاية.",
+        "products_to_show": 6,
+        "link_label": "شوف كل الأطقم",
+        "collection": "matching"
+      }
+    },
+    "story": {
+      "type": "story",
+      "settings": {
+        "heading": "أحلى شبه،\nوأجمل حكاية.",
+        "text": "<p>فيها حتة منك، وليها طلتها الخاصة. اختر إطلالات تجمعكم، من خروجات كل يوم للحظات اللي تستاهل تفضل ذكرى.</p>",
+        "link_label": "اختر إطلالتكم",
+        "image": "shopify://shop_images/matchy-story.jpg"
+      }
+    },
+    "marquee": {
+      "type": "marquee"
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": {
+          "type": "faq",
+          "settings": {
+            "question": "أقدر أختار مقاسين مختلفين؟",
+            "answer": "<p>أيوه، في الأطقم بتختار مقاس الأم ومقاس البنت كل واحد لوحده. راجع تفاصيل المقاس الخاصة بالموديل قبل الاختيار.</p>"
+          }
+        },
+        "q2": {
+          "type": "faq",
+          "settings": {
+            "question": "السعر للطقم ولا للقطعة؟",
+            "answer": "<p>قسم الأم والبنت فيه الأطقم المتناسقة، وقسم للأم وقسم للبنت فيهم القطع المنفردة. صفحة كل منتج بتوضح بالضبط إيه اللي بتختاره.</p>"
+          }
+        },
+        "q3": {
+          "type": "faq",
+          "settings": {
+            "question": "ألاقي تفاصيل الخامة والمقاس فين؟",
+            "answer": "<p>افتح «الخامة وجدول المقاسات» في صفحة المنتج عشان تشوف تفاصيل الموديل.</p>"
+          }
+        },
+        "q4": {
+          "type": "faq",
+          "settings": {
+            "question": "إيه تفاصيل الشحن والاستبدال؟",
+            "answer": "<p>الشحن بيوصل لكل محافظات مصر، والدفع عند الاستلام متاح. الاستبدال خلال ١٤ يوم من الاستلام.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {
+        "heading": "كل التفاصيل،\nعشان تختار براحتك.",
+        "subheading": "إجابات تساعدك قبل ما تأضف القطعة للحقيبة."
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "promos",
+    "picks",
+    "story",
+    "marquee",
+    "faq"
+  ]
+}
