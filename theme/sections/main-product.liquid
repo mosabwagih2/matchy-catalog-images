@@ -1,0 +1,235 @@
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  assign on_sale = false
+  if current.compare_at_price > current.price
+    assign on_sale = true
+  endif
+
+  assign color_option_index = 0
+  for option in product.options_with_values
+    if option.name == settings.color_option_name
+      assign color_option_index = forloop.index
+    endif
+  endfor
+-%}
+
+<div class="breadcrumb">
+  <div class="container">
+    <a href="{{ routes.root_url }}">{{ 'general.breadcrumb.home' | t }}</a>
+    <span>/</span>
+    {%- if collection -%}
+      <a href="{{ collection.url }}">{{ collection.title }}</a>
+      <span>/</span>
+    {%- endif -%}
+    <span>{{ product.title }}</span>
+  </div>
+</div>
+
+<div class="container product-layout" id="product-{{ section.id }}" data-product-section>
+  <div class="product-gallery">
+    <div class="gallery-thumbs">
+      {%- for media in product.media -%}
+        <button class="gallery-thumb{% if forloop.first %} active{% endif %}"
+                data-gallery="{{ forloop.index0 }}"
+                data-media-id="{{ media.id }}"
+                data-full="{{ media | image_url: width: 1600 }}"
+                aria-label="{{ media.alt | default: product.title | escape }}"
+                aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+          <img src="{{ media | image_url: width: 160 }}" alt="{{ media.alt | escape }}" loading="lazy" width="80" height="107">
+        </button>
+      {%- endfor -%}
+    </div>
+
+    <button class="main-image-button" aria-label="{{ 'products.product.zoom' | t }}">
+      {%- if product.featured_media -%}
+        <img id="main-product-image"
+             src="{{ product.featured_media | image_url: width: 1200 }}"
+             srcset="{{ product.featured_media | image_url: width: 600 }} 600w,
+                     {{ product.featured_media | image_url: width: 1200 }} 1200w"
+             sizes="(min-width: 1024px) 50vw, 100vw"
+             data-full="{{ product.featured_media | image_url: width: 1600 }}"
+             alt="{{ product.featured_media.alt | default: product.title | escape }}"
+             fetchpriority="high" width="860" height="1146">
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag }}
+      {%- endif -%}
+      <span>{% render 'icon', icon: 'zoom' %}</span>
+    </button>
+  </div>
+
+  <div class="product-panel">
+    <h1>{{ product.title }}</h1>
+
+    <div class="detail-price" data-price-wrap>
+      <span data-price>{{ current.price | money }}</span>
+      {%- if on_sale -%}<del data-compare-price>{{ current.compare_at_price | money }}</del>{%- endif -%}
+    </div>
+
+    {%- form 'product', product, id: 'product-form', class: 'product-form' -%}
+      <input type="hidden" name="id" value="{{ current.id }}" data-variant-id>
+
+      {%- unless product.has_only_default_variant -%}
+        {%- for option in product.options_with_values -%}
+          {%- if option.name == settings.color_option_name -%}
+            <fieldset class="product-field">
+              <legend>
+                {{ option.name }}: <span id="selected-color">{{ option.selected_value | default: option.values.first }}</span>
+              </legend>
+              <div class="color-options" role="radiogroup" aria-label="{{ option.name | escape }}">
+                {%- for value in option.values -%}
+                  {%- liquid
+                    assign checked = false
+                    if option.selected_value == value or forloop.first and option.selected_value == blank
+                      assign checked = true
+                    endif
+                  -%}
+                  <button type="button"
+                          class="color-option{% if checked %} active{% endif %}{% unless value.available %} unavailable{% endunless %}"
+                          {% if value.swatch.color %}style="--swatch: {{ value.swatch.color }}"{% elsif value.swatch.image %}style="--swatch: url({{ value.swatch.image | image_url: width: 64 }}) center/cover"{% endif %}
+                          data-option-index="{{ option.position }}"
+                          data-option-value="{{ value | escape }}"
+                          data-media-id="{{ value.variant.featured_media.id }}"
+                          role="radio"
+                          aria-label="{{ value | escape }}"
+                          aria-checked="{% if checked %}true{% else %}false{% endif %}"
+                          tabindex="{% if checked %}0{% else %}-1{% endif %}"></button>
+                {%- endfor -%}
+              </div>
+            </fieldset>
+          {%- else -%}
+            <fieldset class="product-field">
+              <legend>{{ option.name }}</legend>
+              <div class="size-options">
+                {%- for value in option.values -%}
+                  {%- liquid
+                    assign checked = false
+                    if option.selected_value == value or forloop.first and option.selected_value == blank
+                      assign checked = true
+                    endif
+                  -%}
+                  <label>
+                    <input type="radio"
+                           name="option-{{ option.position }}"
+                           value="{{ value | escape }}"
+                           data-option-index="{{ option.position }}"
+                           {% if checked %}checked{% endif %}
+                           {% unless value.available %}data-unavailable{% endunless %}
+                           required>
+                    <span>{{ value }}</span>
+                  </label>
+                {%- endfor -%}
+              </div>
+            </fieldset>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endunless -%}
+
+      <p class="form-error" role="alert" hidden data-form-error>{{ 'products.product.select_sizes' | t }}</p>
+
+      <div class="buy-row">
+        <div class="quantity-input">
+          <button type="button" data-product-qty="-1" aria-label="{{ 'products.product.quantity_decrease' | t }}">−</button>
+          <output id="selected-qty">1</output>
+          <button type="button" data-product-qty="1" aria-label="{{ 'products.product.quantity_increase' | t }}">+</button>
+          <input type="hidden" name="quantity" value="1" data-quantity-input>
+        </div>
+
+        <button class="pill" type="submit" data-add-to-cart {% unless current.available %}disabled{% endunless %}>
+          <span data-add-label>
+            {%- if current.available -%}
+              {{ 'products.product.add_to_cart' | t }}
+            {%- else -%}
+              {{ 'products.product.sold_out' | t }}
+            {%- endif -%}
+          </span>
+        </button>
+      </div>
+    {%- endform -%}
+
+    <button class="detail-wish wish" data-wish="{{ product.id }}" data-wish-handle="{{ product.handle }}" aria-pressed="false">
+      {% render 'icon', icon: 'heart' %} {{ 'products.product.add_to_wishlist' | t }}
+    </button>
+
+    {%- if product.metafields.custom.purchase_scope != blank -%}
+      <p class="purchase-scope">{{ product.metafields.custom.purchase_scope.value }}</p>
+    {%- endif -%}
+
+    {%- if product.description != blank -%}
+      <details class="detail-accordion" open>
+        <summary>وصف المنتج</summary>
+        <div class="detail-copy">{{ product.description }}</div>
+      </details>
+    {%- endif -%}
+
+    {%- if product.metafields.custom.size_and_material != blank -%}
+      <details class="detail-accordion" open>
+        <summary>{{ 'products.product.size_and_material' | t }}</summary>
+        <div class="product-specs">{{ product.metafields.custom.size_and_material | metafield_tag }}</div>
+      </details>
+    {%- endif -%}
+
+    {%- if settings.shipping_text != blank -%}
+      <details class="detail-accordion">
+        <summary>{{ 'products.product.shipping_and_returns' | t }}</summary>
+        {{ settings.shipping_text }}
+      </details>
+    {%- endif -%}
+  </div>
+</div>
+
+{%- if section.settings.related_collection != blank -%}
+  <section class="section-space container">
+    <div class="section-head">
+      <h2>{{ section.settings.related_heading }}</h2>
+      {%- if section.settings.related_subheading != blank -%}
+        <p>{{ section.settings.related_subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- assign related = section.settings.related_collection.products -%}
+    <div class="product-rail-wrap">
+      <div class="product-rail" id="related-rail">
+        {%- for item in related limit: 8 -%}
+          {%- unless item.id == product.id -%}
+            {% render 'product-card', product: item %}
+          {%- endunless -%}
+        {%- endfor -%}
+      </div>
+      <div class="rail-buttons">
+        <button class="circle-btn" data-rail="related-rail" data-dir="-1" aria-label="{{ 'general.rail.previous' | t }}">
+          {% render 'icon', icon: 'left' %}
+        </button>
+        <button class="circle-btn" data-rail="related-rail" data-dir="1" aria-label="{{ 'general.rail.next' | t }}">
+          {% render 'icon', icon: 'right' %}
+        </button>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+<div class="sticky-buy">
+  {%- if product.featured_media -%}
+    <img src="{{ product.featured_media | image_url: width: 120 }}" alt="" loading="lazy" width="60" height="80">
+  {%- endif -%}
+  <strong>{{ product.title }}<br><span data-sticky-price>{{ current.price | money }}</span></strong>
+  <button class="pill" data-back-options>{{ 'products.product.choose_details' | t }}</button>
+</div>
+
+<script type="application/json" data-variant-data>
+  {{ product.variants | json }}
+</script>
+
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
+{% schema %}
+{
+  "name": "صفحة المنتج",
+  "settings": [
+    { "type": "collection", "id": "related_collection", "label": "تشكيلة «ممكن تحب كمان»" },
+    { "type": "text", "id": "related_heading", "label": "عنوان القسم", "default": "ممكن تحب كمان" },
+    { "type": "text", "id": "related_subheading", "label": "العنوان الفرعي", "default": "كمّل إطلالتكم بقطع تحبها." }
+  ]
+}
+{% endschema %}
