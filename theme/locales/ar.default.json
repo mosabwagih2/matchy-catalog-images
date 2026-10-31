@@ -1,0 +1,123 @@
+{
+  "collections": {
+    "general": {
+      "items_count": {
+        "one": "{{ count }} منتج",
+        "other": "{{ count }} منتج"
+      },
+      "no_products": "مفيش منتجات هنا دلوقتي."
+    },
+    "sorting": {
+      "apply": "طبّق",
+      "title": "ترتيب المنتجات"
+    }
+  },
+  "general": {
+    "404": {
+      "title": "الصفحة مش موجودة",
+      "text": "الرابط ده مش شغال. جرّب تكمّل تسوّق من التشكيلة."
+    },
+    "accessibility": {
+      "link_messages": {
+        "new_window": "بيفتح في نافذة جديدة."
+      }
+    },
+    "back_to_top": "الرجوع لأعلى الصفحة",
+    "breadcrumb": {
+      "home": "الرئيسية"
+    },
+    "close": "إغلاق",
+    "continue_shopping": "كمّل تسوّق",
+    "error": "حصلت مشكلة، جرّب تاني.",
+    "footer": {
+      "rights": "جميع الحقوق محفوظة."
+    },
+    "menu": {
+      "close": "إغلاق القائمة",
+      "discover": "اكتشف {{ shop }}",
+      "main": "القائمة الرئيسية",
+      "mobile": "قائمة الموبايل",
+      "open": "افتح القائمة"
+    },
+    "meta": {
+      "page": "صفحة {{ page }}",
+      "tags": "وسم: {{ tags }}"
+    },
+    "newsletter": {
+      "email": "البريد الإلكتروني",
+      "submit": "اشترك",
+      "success": "شكرًا! اتسجّل بريدك."
+    },
+    "pagination": {
+      "label": "التنقل بين الصفحات",
+      "next": "الصفحة التالية",
+      "previous": "الصفحة السابقة"
+    },
+    "rail": {
+      "next": "المنتجات التالية",
+      "previous": "المنتجات السابقة",
+      "slide": "شريحة المنتجات {{ index }}"
+    },
+    "search": {
+      "no_results": "مفيش نتائج لـ «{{ terms }}»",
+      "placeholder": "ابحث في التشكيلة",
+      "results_count": {
+        "one": "{{ count }} نتيجة",
+        "other": "{{ count }} نتيجة"
+      },
+      "search": "بحث",
+      "submit": "بحث",
+      "title": "البحث"
+    },
+    "skip_to_content": "انتقل للمحتوى",
+    "wishlist": {
+      "close": "إغلاق المفضلة",
+      "empty_text": "اكتشف قطعة تحبها.",
+      "empty_title": "لسه المفضلة فاضية.",
+      "title": "المفضلة"
+    },
+    "account": "حسابي"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "أضف للحقيبة",
+      "add_to_wishlist": "أضف للمفضلة",
+      "added_to_cart": "اختيارك اتضاف للحقيبة",
+      "added_to_wishlist": "القطعة اتضافت للمفضلة",
+      "choose_details": "اختر التفاصيل",
+      "colors_for": "ألوان {{ title }}",
+      "from_price": "من {{ price }}",
+      "quantity_decrease": "تقليل الكمية",
+      "quantity_increase": "زيادة الكمية",
+      "quantity_limit": "وصلتي للحد الأقصى المتاح",
+      "quick_view_for": "عرض سريع لـ{{ title }}",
+      "removed_from_wishlist": "القطعة اتشالت من المفضلة",
+      "save_item": "احتفظ بـ{{ title }}",
+      "select_sizes": "اختر المقاسات المناسبة الأول.",
+      "shipping_and_returns": "الشحن والاستبدال",
+      "size_and_material": "الخامة وجدول المقاسات",
+      "sold_out": "نفدت الكمية",
+      "view_product": "شوف المنتج",
+      "zoom": "تكبير صورة المنتج",
+      "zoomed_image": "صورة المنتج المكبّرة"
+    }
+  },
+  "sections": {
+    "cart": {
+      "checkout": "أكمل الطلب",
+      "close": "إغلاق الحقيبة",
+      "decrease": "تقليل كمية {{ title }}",
+      "empty_text": "اختر قطعة تشبهكم من التشكيلة.",
+      "empty_title": "لسه حقيبتك فاضية.",
+      "increase": "زيادة كمية {{ title }}",
+      "note": "ملاحظات على الطلب",
+      "remove": "إزالة",
+      "subtotal": "الإجمالي",
+      "taxes_note": "الشحن يتحسب عند إتمام الطلب.",
+      "title": "حقيبة التسوق"
+    },
+    "featured": {
+      "empty": "مفيش منتجات في التشكيلة دي لسه."
+    }
+  }
+}

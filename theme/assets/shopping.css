@@ -1,0 +1,19 @@
+.header .logo,.footer-brand .logo{display:block;width:140px;font-size:inherit}.brand-logo{display:block;width:100%;height:48px;object-fit:contain}.footer-brand .logo{width:180px}.footer-brand .brand-logo{height:64px}
+#cart-panel{right:0;left:auto;transform:translateX(100%);width:min(460px,calc(100% - 28px))}#cart-panel.open{transform:none}#menu-panel{width:min(420px,calc(100% - 48px))}.drawer-body{min-height:0}.cart-success{padding:14px;background:#e0f0dd;color:#245c2c;border-radius:6px;font-size:13px;margin-bottom:20px}.cart-item{grid-template-columns:76px minmax(0,1fr);gap:14px}.cart-item img{width:76px;height:110px;object-fit:cover}.cart-quantity{gap:8px}.cart-quantity button{min-width:32px;height:36px}.cart-quantity .remove{min-width:0}.drawer-footer{background:white;padding-bottom:max(18px,env(safe-area-inset-bottom))}
+.product-specs>section+section{margin-top:24px;padding-top:20px;border-top:1px solid #ddd}.product-specs h3{font-size:16px;margin-bottom:8px}.product-specs ul{padding-inline-start:20px;font-size:12px;line-height:1.9;margin-block:12px}.product-specs .material-copy{white-space:normal;font-size:13px}.size-chart{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px;text-align:center;table-layout:fixed}.size-chart caption{text-align:right;font-weight:550;margin-bottom:10px}.size-chart th,.size-chart td{border:1px solid #ddd;padding:12px 8px}.size-chart thead{background:#111;color:white}.size-chart tbody th{font-weight:400}.size-chart tbody tr:nth-child(even){background:#f6f6f6}.checkout-form{display:grid;gap:14px}.checkout-form label{display:grid;gap:6px;font-size:13px}.checkout-form input,.checkout-form textarea{width:100%;padding:10px;border:1px solid #ccc;border-radius:4px}.checkout-form p{font-size:12px}.product-field .size-options input:checked+span{background:#111;color:white}
+@media(max-width:767px){.header .logo{width:115px}.header .brand-logo{height:42px}.drawer-head{padding:14px 16px}.drawer-body{padding:18px 16px}.drawer-head h2{font-size:17px}.drawer-footer{padding-inline:16px}.cart-item h3{font-size:12px}.cart-item p{line-height:1.8}.product-specs h3{font-size:15px}.size-chart{font-size:12px}}
+.product-specs{white-space:pre-line;font-size:13px;line-height:1.9;color:#555}.brand-wordmark{font-size:26px;font-weight:700;letter-spacing:.08em}.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.card-swatch[aria-label="أسود"],.color-option[aria-label="أسود"]{--swatch:#1A1A1A}
+.card-swatch[aria-label="بني"],.color-option[aria-label="بني"]{--swatch:#4A3728}
+.card-swatch[aria-label="بيبي بلو"],.color-option[aria-label="بيبي بلو"]{--swatch:#A9CCE3}
+.card-swatch[aria-label="بيج"],.color-option[aria-label="بيج"]{--swatch:#D9C3A5}
+.card-swatch[aria-label="جملي"],.color-option[aria-label="جملي"]{--swatch:#B8864B}
+.card-swatch[aria-label="جنزاري"],.color-option[aria-label="جنزاري"]{--swatch:#1F5F5B}
+.card-swatch[aria-label="زيتي"],.color-option[aria-label="زيتي"]{--swatch:#6B7B4A}
+.card-swatch[aria-label="كشمير"],.color-option[aria-label="كشمير"]{--swatch:#CDB89A}
+.card-swatch[aria-label="كشمير ترابي"],.color-option[aria-label="كشمير ترابي"]{--swatch:#8A6F55}
+.card-swatch[aria-label="كيوي"],.color-option[aria-label="كيوي"]{--swatch:#8DB600}
+.card-swatch[aria-label="لافندر"],.color-option[aria-label="لافندر"]{--swatch:#B39DDB}
+.card-swatch[aria-label="ليموني"],.color-option[aria-label="ليموني"]{--swatch:#F2E34C}
+.card-swatch[aria-label="نبيتي"],.color-option[aria-label="نبيتي"]{--swatch:#7B1F3A}
+.color-option.unavailable{opacity:.35}.detail-copy h3{font-size:15px;margin:14px 0 6px}.detail-copy p{margin:0 0 6px}.detail-copy hr{border:0;border-top:1px solid #eee;margin:14px 0}

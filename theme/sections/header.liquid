@@ -1,0 +1,73 @@
+<header class="header">
+  <div class="header-row container">
+    <button class="icon-btn mobile-menu" aria-label="{{ 'general.menu.open' | t }}" data-panel="menu">
+      {% render 'icon', icon: 'menu' %}
+    </button>
+
+    <a class="logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+      {%- if section.settings.logo != blank -%}
+        <img class="brand-logo"
+             src="{{ section.settings.logo | image_url: width: 360 }}"
+             alt="{{ shop.name | escape }}"
+             width="{{ section.settings.logo_width }}">
+      {%- else -%}
+        <img class="brand-logo" src="{{ 'matchy-logo.png' | asset_url }}" alt="{{ shop.name | escape }}" width="150" height="48">
+      {%- endif -%}
+    </a>
+
+    <nav class="nav" aria-label="{{ 'general.menu.main' | t }}">
+      {%- for link in section.settings.menu.links -%}
+        <a class="nav-link{% if link.active %} active{% endif %}" href="{{ link.url }}">{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+
+    <div class="header-tools">
+      <a class="icon-btn" href="{{ routes.search_url }}" aria-label="{{ 'general.search.search' | t }}">
+        {% render 'icon', icon: 'search' %}
+      </a>
+
+      <a class="icon-btn" href="{{ routes.account_url }}" aria-label="{{ 'general.account' | t }}">
+        {% render 'icon', icon: 'user' %}
+      </a>
+
+      <button class="icon-btn" aria-label="{{ 'general.wishlist.title' | t }}" data-panel="wishlist">
+        {% render 'icon', icon: 'heart' %}
+        <span class="badge-count wish-count">0</span>
+      </button>
+
+      <a class="icon-btn" href="{{ routes.cart_url }}" aria-label="{{ 'sections.cart.title' | t }}" data-panel="cart">
+        {% render 'icon', icon: 'bag' %}
+        <span class="badge-count cart-count">{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "الهيدر",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "اللوجو"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "عرض اللوجو",
+      "min": 80,
+      "max": 260,
+      "step": 10,
+      "unit": "px",
+      "default": 150
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "القائمة الرئيسية",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}
