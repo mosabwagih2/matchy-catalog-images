@@ -60,6 +60,10 @@
   <div class="product-panel">
     <h1>{{ product.title }}</h1>
 
+    {%- if product.metafields.judgeme.badge != blank -%}
+      <div class="jdgm-widget jdgm-preview-badge product-rating" data-id="{{ product.id }}">{{ product.metafields.judgeme.badge }}</div>
+    {%- endif -%}
+
     <div class="detail-price" data-price-wrap>
       <span data-price>{{ current.price | money }}</span>
       {%- if on_sale -%}<del data-compare-price>{{ current.compare_at_price | money }}</del>{%- endif -%}
@@ -223,6 +227,19 @@
 </div>
 
 
+{%- if product.metafields.judgeme.widget != blank -%}
+  <section class="container section-space product-reviews" id="reviews">
+    <h2>تقييمات العملاء</h2>
+    <div id="judgeme_product_reviews" class="jdgm-widget jdgm-review-widget" data-id="{{ product.id }}">{{ product.metafields.judgeme.widget }}</div>
+  </section>
+{%- endif -%}
+
+{%- for block in section.blocks -%}
+  {%- if block.type == '@app' -%}
+    <section class="container section-space product-app-block">{% render block %}</section>
+  {%- endif -%}
+{%- endfor -%}
+
 {%- if has_kids or has_women -%}
   <dialog id="size-chart-modal" class="sc-modal">
     <div class="sc-modal-body">
@@ -282,6 +299,7 @@
 {% schema %}
 {
   "name": "صفحة المنتج",
+  "blocks": [{ "type": "@app" }],
   "settings": [
     { "type": "collection", "id": "related_collection", "label": "تشكيلة «ممكن تحب كمان»" },
     { "type": "text", "id": "related_heading", "label": "عنوان القسم", "default": "ممكن تحب كمان" },

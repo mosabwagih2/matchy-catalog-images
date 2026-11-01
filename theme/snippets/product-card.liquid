@@ -79,6 +79,9 @@
 
   <div class="product-info">
     <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+    {%- if product.metafields.judgeme.badge != blank -%}
+      <div class="card-rating jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">{{ product.metafields.judgeme.badge }}</div>
+    {%- endif -%}
 
     <div class="card-price">
       {%- if product.price_varies -%}

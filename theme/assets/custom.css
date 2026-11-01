@@ -211,3 +211,9 @@ body .announcement .announce-star{font-size:10px;color:#d9c3a5;opacity:.9}
 .sc-table tbody th.sc-age{font-weight:600;font-size:14px;white-space:nowrap}
 /* everything in the charts can be selected and copied */
 .sc,.sc *{-webkit-user-select:text;user-select:text}
+
+/* customer reviews (Judge.me widgets render inside these containers) */
+.product-reviews{max-width:900px}
+.product-reviews h2{font-size:24px;margin-bottom:18px;text-align:center}
+.product-rating{margin:2px 0 8px}
+.card-rating{display:flex;justify-content:center;margin-top:4px;min-height:18px}
