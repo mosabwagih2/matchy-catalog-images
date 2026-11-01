@@ -52,7 +52,7 @@
               {%- assign cells = row | split: '|' -%}
               <tr>
                 <th scope="row"><span class="sc-badge">{{ cells[0] }}</span></th>
-                <td>{{ cells[1] }} سنوات</td>
+                <td><bdi dir="ltr">{{ cells[1] }}</bdi> سنوات</td>
                 <td>{{ cells[2] }}</td>
                 <td>{{ cells[3] }}</td>
                 <td>{{ cells[4] }}</td>
