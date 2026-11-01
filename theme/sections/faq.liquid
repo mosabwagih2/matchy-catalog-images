@@ -1,0 +1,70 @@
+<section class="container matchy-purchase-help">
+  <div>
+    {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading | escape | newline_to_br }}</h2>{%- endif -%}
+    {%- if section.settings.subheading != blank -%}<p>{{ section.settings.subheading }}</p>{%- endif -%}
+  </div>
+
+  <div class="matchy-faq">
+    {%- for block in section.blocks -%}
+      <details {% if forloop.first %}open{% endif %} {{ block.shopify_attributes }}>
+        <summary>{{ block.settings.question }}</summary>
+        {{ block.settings.answer }}
+      </details>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "أسئلة شائعة",
+  "settings": [
+    { "type": "textarea", "id": "heading", "label": "العنوان", "default": "كل التفاصيل،\nعشان تختار براحتك." },
+    { "type": "text", "id": "subheading", "label": "العنوان الفرعي", "default": "إجابات تساعدك قبل ما تأضف القطعة للحقيبة." }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "سؤال",
+      "settings": [
+        { "type": "text", "id": "question", "label": "السؤال" },
+        { "type": "richtext", "id": "answer", "label": "الإجابة" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "أسئلة شائعة",
+      "blocks": [
+        {
+          "type": "faq",
+          "settings": {
+            "question": "أقدر أختار مقاسين مختلفين؟",
+            "answer": "<p>أيوه، في الأطقم بتختار مقاس الأم ومقاس البنت كل واحد لوحده. راجع تفاصيل المقاس الخاصة بالموديل قبل الاختيار.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "السعر للطقم ولا للقطعة؟",
+            "answer": "<p>قسم الأم والبنت فيه الأطقم المتناسقة، وقسم للأم وقسم للبنت فيهم القطع المنفردة. صفحة كل منتج بتوضح بالضبط إيه اللي بتختاره.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "ألاقي تفاصيل الخامة والمقاس فين؟",
+            "answer": "<p>افتح «الخامة وجدول المقاسات» في صفحة المنتج عشان تشوف تفاصيل الموديل.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "إيه تفاصيل الشحن والاستبدال؟",
+            "answer": "<p>الشحن بيوصل لكل محافظات مصر، والدفع عند الاستلام متاح. الاستبدال متاح خلال ٧ أيام من الاستلام، والتفاصيل في صفحة سياسة الاستبدال والاسترجاع.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -108,13 +108,3 @@
 @media(max-width:860px){.contact-cards{grid-template-columns:1fr}.contact-layout{grid-template-columns:1fr}.contact-form-wrap,.contact-help{padding:24px 20px}.contact-row{grid-template-columns:1fr}}
 
 .contact-layout{grid-template-columns:minmax(0,1fr);max-width:640px;margin-inline:auto}
-
-/* contact icons: bold brand-coloured tiles */
-.contact-icon{width:68px;height:68px;border-radius:22px;color:#fff;margin-bottom:12px;box-shadow:0 12px 22px -12px rgba(0,0,0,.45);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
-.contact-card--instagram .contact-icon{background:linear-gradient(135deg,#feda75 0%,#fa7e1e 28%,#d62976 58%,#962fbf 82%,#4f5bd5 100%)}
-.contact-card--facebook .contact-icon{background:#1877f2}
-.contact-card--email .contact-icon{background:#111}
-.contact-card:hover .contact-icon,.contact-card:focus-visible .contact-icon{background:inherit;color:#fff;transform:translateY(-2px) scale(1.06);box-shadow:0 18px 26px -12px rgba(0,0,0,.5)}
-.contact-card--instagram:hover .contact-icon,.contact-card--instagram:focus-visible .contact-icon{background:linear-gradient(135deg,#feda75 0%,#fa7e1e 28%,#d62976 58%,#962fbf 82%,#4f5bd5 100%)}
-.contact-card--facebook:hover .contact-icon,.contact-card--facebook:focus-visible .contact-icon{background:#1877f2}
-.contact-card--email:hover .contact-icon,.contact-card--email:focus-visible .contact-icon{background:#111}

@@ -8,9 +8,9 @@
 <section class="container section-space contact-page">
   <div class="contact-cards">
     {%- if section.settings.instagram_url != blank -%}
-      <a class="contact-card contact-card--instagram" href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer">
+      <a class="contact-card" href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer">
         <span class="contact-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
         </span>
         <strong>انستجرام</strong>
         <span class="contact-handle" dir="ltr">{{ section.settings.instagram_handle }}</span>
@@ -19,9 +19,9 @@
     {%- endif -%}
 
     {%- if section.settings.facebook_url != blank -%}
-      <a class="contact-card contact-card--facebook" href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener noreferrer">
+      <a class="contact-card" href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener noreferrer">
         <span class="contact-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M14 8.5V6.8c0-.8.2-1.3 1.400-1.300H17V2.200C16.700 2.100 15.700 2 14.600 2 12.100 2 10.500 3.500 10.500 6.200v2.300H8v3.500h2.500V22H14V12h2.700l.4-3.500H14z"/></svg>
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M13.5 21v-7.5H16l.5-3h-3V8.6c0-.9.3-1.5 1.6-1.5H16.6V4.4c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.4-4 4.1v2.1H7.5v3h2.7V21h3.3z"/></svg>
         </span>
         <strong>فيسبوك</strong>
         <span class="contact-handle" dir="ltr">{{ section.settings.facebook_handle }}</span>
@@ -30,9 +30,9 @@
     {%- endif -%}
 
     {%- if section.settings.email != blank -%}
-      <a class="contact-card contact-card--email" href="mailto:{{ section.settings.email }}">
+      <a class="contact-card" href="mailto:{{ section.settings.email }}">
         <span class="contact-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>
         </span>
         <strong>البريد الإلكتروني</strong>
         <span class="contact-handle" dir="ltr">{{ section.settings.email }}</span>
