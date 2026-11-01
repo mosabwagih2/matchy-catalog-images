@@ -140,13 +140,55 @@ async function cartRequest(url, body) {
   return data;
 }
 
-async function addToCart(id, quantity) {
-  const data = await cartRequest(routes.cartAdd || '/cart/add.js', {
-    items: [{ id: Number(id), quantity: Number(quantity) || 1 }]
-  });
-  await refreshCartDrawer(data.sections && data.sections['cart-drawer']);
+/* Show the new line in the drawer straight away; the server answer replaces it a moment later. */
+function showPendingCartItem(id, quantity, preview) {
+  const items = $('#cart-items');
+  if (!items) return;
+  const existing = $(`[data-cart-item^="${id}:"]`, items);
+  if (existing) {
+    const label = $('.cart-quantity span', existing);
+    const next = Number(label.textContent) + quantity;
+    label.textContent = String(next);
+    const buttons = $$('.cart-quantity [data-cart-change]', existing);
+    if (buttons[0]) buttons[0].dataset.quantity = String(next - 1);
+    if (buttons[1]) buttons[1].dataset.quantity = String(next + 1);
+    updateCartTotals(existing, next);
+    return;
+  }
+  if ($('.empty-state', items)) items.innerHTML = '';
+  const row = document.createElement('article');
+  row.className = 'cart-item is-updating';
+  row.dataset.cartItem = id + ':pending';
+  row.dataset.unitPrice = String(preview.price);
+  row.dataset.unitOriginal = String(preview.price);
+  row.innerHTML =
+    `<a href="${escapeText(preview.url || '#')}">${preview.image ? `<img src="${escapeText(preview.image)}" alt="" width="100" height="133">` : ''}</a>` +
+    `<div><h3><a href="${escapeText(preview.url || '#')}">${escapeText(preview.title || '')}</a></h3>` +
+    (preview.options ? `<p>${escapeText(preview.options)}</p>` : '') +
+    `<strong data-line-price></strong>` +
+    `<div class="cart-quantity"><span>${quantity}</span></div></div>`;
+  items.prepend(row);
+  updateCartTotals(row, quantity);
+}
+
+async function addToCart(id, quantity, preview) {
+  const amount = Number(quantity) || 1;
+  if (preview) {
+    showPendingCartItem(id, amount, preview);
+    setCartCount(Number($('.cart-count')?.textContent || 0) + amount);
+  }
   openPanel('cart');
   toast(strings.addedToCart || '');
+  let data;
+  try {
+    data = await cartRequest(routes.cartAdd || '/cart/add.js', {
+      items: [{ id: Number(id), quantity: amount }]
+    });
+  } catch (error) {
+    await refreshCartDrawer();
+    throw error;
+  }
+  await refreshCartDrawer(data.sections && data.sections['cart-drawer']);
   return data;
 }
 
@@ -475,7 +517,13 @@ async function showQuickView(handle) {
     const submit = $('button[type=submit]', form);
     submit.disabled = true;
     try {
-      await addToCart(variant.id, 1);
+      await addToCart(variant.id, 1, {
+        price: variant.price,
+        title: product.title,
+        image: image,
+        url: `${routes.root || '/'}products/${product.handle}`,
+        options: variant.options.join(' / ')
+      });
       dialog.close();
     } catch (error) {
       toast(error.message || strings.error);
@@ -638,7 +686,14 @@ function bindEvents() {
     const id = $('[data-variant-id]', form).value;
     submit.disabled = true;
     try {
-      await addToCart(id, productState.quantity);
+      const chosen = productState.selected;
+      await addToCart(id, productState.quantity, chosen && {
+        price: chosen.price,
+        title: $('.product-panel h1')?.textContent.trim(),
+        image: $('#main-product-image')?.currentSrc || $('#main-product-image')?.src,
+        url: location.pathname,
+        options: chosen.options ? chosen.options.join(' / ') : ''
+      });
     } catch (err) {
       toast(err.message || strings.error);
     } finally {
