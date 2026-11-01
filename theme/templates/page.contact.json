@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-contact",
+      "settings": {
+        "subheading": "لأي استفسار عن المنتجات أو المقاسات أو الطلبات، إحنا هنا.",
+        "instagram_url": "https://www.instagram.com/matchy.family_wear",
+        "instagram_handle": "@matchy.family_wear",
+        "facebook_url": "https://www.facebook.com/Matchy.family.wear",
+        "facebook_handle": "Matchy.family.wear",
+        "email": "matchyfamily2@gmail.com",
+        "reply_text": "بنرد على رسائلكم في أقرب وقت."
+      }
+    }
+  },
+  "order": ["main"]
+}
