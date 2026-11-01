@@ -68,6 +68,27 @@
     {%- form 'product', product, id: 'product-form', class: 'product-form' -%}
       <input type="hidden" name="id" value="{{ current.id }}" data-variant-id>
 
+      {%- liquid
+        assign mother_kg = ''
+        if product.tags contains 'wsize-100'
+          assign mother_kg = '100'
+        elsif product.tags contains 'wsize-90'
+          assign mother_kg = '90'
+        endif
+        assign mother_shown = false
+      -%}
+      {%- capture mother_size -%}
+        {%- if mother_kg != blank -%}
+          <fieldset class="product-field mother-size">
+            <legend>{{ 'مقاس الأم' }}</legend>
+            <div class="size-options">
+              <label><input type="radio" checked disabled><span>One size</span></label>
+              <small class="size-note">من 60 إلى {{ mother_kg }} كجم</small>
+            </div>
+          </fieldset>
+        {%- endif -%}
+      {%- endcapture -%}
+
       {%- unless product.has_only_default_variant -%}
         {%- for option in product.options_with_values -%}
           {%- if option.name == settings.color_option_name -%}
@@ -97,6 +118,7 @@
               </div>
             </fieldset>
           {%- else -%}
+            {%- unless mother_shown -%}{{ mother_size }}{%- assign mother_shown = true -%}{%- endunless -%}
             <fieldset class="product-field">
               <legend>{{ option.name }}</legend>
               <div class="size-options">
@@ -123,6 +145,7 @@
           {%- endif -%}
         {%- endfor -%}
       {%- endunless -%}
+      {%- unless mother_shown -%}{{ mother_size }}{%- endunless -%}
 
       <p class="form-error" role="alert" hidden data-form-error>{{ 'products.product.select_sizes' | t }}</p>
 
