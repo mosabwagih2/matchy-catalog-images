@@ -50,9 +50,10 @@
           <tbody>
             {%- for row in kids_rows -%}
               {%- assign cells = row | split: '|' -%}
+              {%- assign ages = cells[1] | split: '–' -%}
               <tr>
                 <th scope="row"><span class="sc-badge">{{ cells[0] }}</span></th>
-                <td class="sc-age"><bdi dir="ltr">{{ cells[1] }}</bdi> سنوات</td>
+                <td class="sc-age">من {{ ages[0] }} إلى {{ ages[1] }} سنوات</td>
                 <td data-label="من الباط للباط">{{ cells[2] }}</td>
                 <td data-label="الكتف">{{ cells[3] }}</td>
                 <td data-label="طول التوب">{{ cells[4] }}</td>
