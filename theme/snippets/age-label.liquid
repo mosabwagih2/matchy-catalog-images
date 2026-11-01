@@ -1,4 +1,4 @@
-{%- comment -%}Shows "4-6 سنوات" as a natural Arabic phrase: من 4 إلى 6 سنوات. Accepts: value{%- endcomment -%}
+{%- comment -%}Shows "4-6 سنوات" so an Arabic reader meets the 4 first (right to left): 4 - 6 سنوات. Accepts: value{%- endcomment -%}
 {%- assign age_parts = value | split: ' ' -%}
 {%- assign age_nums = age_parts[0] | split: '-' -%}
-{%- if age_parts.size == 2 and age_nums.size == 2 -%}<bdi dir="rtl">من {{ age_nums[0] }} إلى {{ age_nums[1] }} {{ age_parts[1] }}</bdi>{%- else -%}{{ value }}{%- endif -%}
+{%- if age_parts.size == 2 and age_nums.size == 2 -%}<bdi dir="rtl">{{ age_nums[0] }} - {{ age_nums[1] }} {{ age_parts[1] }}</bdi>{%- else -%}{{ value }}{%- endif -%}

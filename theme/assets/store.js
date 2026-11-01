@@ -99,10 +99,10 @@ function openPanel(name) {
 
 /* ------------------------------------------------------------------- cart */
 
-/* "4-6 سنوات" reads naturally in Arabic as "من 4 إلى 6 سنوات". */
+/* Spaces around the dash keep the numbers in reading order for Arabic: 4 - 6 سنوات. */
 function ageLabel(value) {
   const m = String(value).match(/^(\d+)\s*-\s*(\d+)\s+(\S+)$/);
-  return m ? `من ${m[1]} إلى ${m[2]} ${m[3]}` : String(value);
+  return m ? `${m[1]} - ${m[2]} ${m[3]}` : String(value);
 }
 
 function setCartCount(count) {
