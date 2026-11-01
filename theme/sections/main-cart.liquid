@@ -1,0 +1,76 @@
+<div class="collection-title">
+  <h1>{{ 'sections.cart.title' | t }}</h1>
+</div>
+
+<section class="container section-space cart-page">
+  {%- if cart.item_count > 0 -%}
+    <form action="{{ routes.cart_url }}" method="post" class="cart-page-form">
+      {%- for item in cart.items -%}
+        <article class="cart-item" data-cart-item="{{ item.key }}" data-unit-price="{{ item.final_price }}" data-unit-original="{{ item.original_price }}">
+          <a href="{{ item.url }}">
+            {%- if item.image -%}
+              <img src="{{ item.image | image_url: width: 240 }}" alt="{{ item.product.title | escape }}" loading="lazy" width="120" height="160">
+            {%- endif -%}
+          </a>
+          <div>
+            <h3><a href="{{ item.url }}">{{ item.product.title }}</a></h3>
+
+            {%- unless item.product.has_only_default_variant -%}
+              <p>
+                {%- for option in item.options_with_values -%}
+                  {{ option.name }}: {{ option.value }}{% unless forloop.last %}<br>{% endunless %}
+                {%- endfor -%}
+              </p>
+            {%- endunless -%}
+
+            <strong data-line-price>{{ item.final_line_price | money }}</strong>
+
+            <div class="cart-quantity">
+              <button type="button" data-cart-change="{{ item.key }}" data-quantity="{{ item.quantity | minus: 1 }}"
+                      aria-label="{{ 'sections.cart.decrease' | t: title: item.product.title }}">−</button>
+              <span>{{ item.quantity }}</span>
+              <button type="button" data-cart-change="{{ item.key }}" data-quantity="{{ item.quantity | plus: 1 }}"
+                      aria-label="{{ 'sections.cart.increase' | t: title: item.product.title }}">+</button>
+              <button type="button" class="remove" data-cart-change="{{ item.key }}" data-quantity="0">
+                {{ 'sections.cart.remove' | t }}
+              </button>
+            </div>
+          </div>
+        </article>
+      {%- endfor -%}
+
+      {%- if section.settings.show_note -%}
+        <label class="cart-note" for="cart-note">{{ 'sections.cart.note' | t }}</label>
+        <textarea id="cart-note" name="note">{{ cart.note }}</textarea>
+      {%- endif -%}
+
+      <div class="cart-total">
+        <span>{{ 'sections.cart.subtotal' | t }}</span>
+        <strong data-cart-subtotal>{{ cart.total_price | money }}</strong>
+      </div>
+
+      <small>{{ 'sections.cart.taxes_note' | t }}</small>
+
+      <div class="cart-page-actions">
+        <button class="pill" type="submit" name="checkout">{{ 'sections.cart.checkout' | t }}</button>
+        <a class="text-link" href="{{ routes.all_products_collection_url }}">{{ 'general.continue_shopping' | t }}</a>
+      </div>
+    </form>
+  {%- else -%}
+    <div class="empty-state">
+      {% render 'icon', icon: 'bag' %}
+      <h3>{{ 'sections.cart.empty_title' | t }}</h3>
+      <p>{{ 'sections.cart.empty_text' | t }}</p>
+      <a class="pill" href="{{ routes.all_products_collection_url }}">{{ 'general.continue_shopping' | t }}</a>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "صفحة السلة",
+  "settings": [
+    { "type": "checkbox", "id": "show_note", "label": "اظهر خانة ملاحظات الطلب", "default": true }
+  ]
+}
+{% endschema %}

@@ -168,6 +168,31 @@ async function changeCartLine(key, quantity) {
 /* Quantity buttons update the screen at once and send one request after a short pause. */
 const pendingCartChanges = new Map();
 
+function updateCartTotals(item, quantity) {
+  const unit = Number(item.dataset.unitPrice);
+  const original = Number(item.dataset.unitOriginal);
+  if (!Number.isFinite(unit)) return;
+  item.dataset.qty = String(quantity);
+  const line = $('[data-line-price]', item);
+  if (line) {
+    const compare = $('[data-line-original]', line);
+    const text = money(unit * quantity);
+    if (compare) {
+      compare.textContent = money(original * quantity);
+      line.firstChild.textContent = text + ' ';
+    } else {
+      line.textContent = text;
+    }
+  }
+  const scope = item.closest('#cart-drawer-contents, .cart-page') || document;
+  let total = 0;
+  $$('[data-cart-item]', scope).forEach(row => {
+    const q = row.dataset.qty !== undefined ? Number(row.dataset.qty) : Number($('.cart-quantity span', row)?.textContent || 0);
+    total += Number(row.dataset.unitPrice) * q;
+  });
+  $$('[data-cart-subtotal]', scope).forEach(e => { e.textContent = money(total); });
+}
+
 function queueCartChange(button) {
   const key = button.dataset.cartChange;
   const quantity = Number(button.dataset.quantity);
@@ -183,6 +208,7 @@ function queueCartChange(button) {
       if (buttons[0]) buttons[0].dataset.quantity = String(quantity - 1);
       if (buttons[1]) buttons[1].dataset.quantity = String(quantity + 1);
     }
+    updateCartTotals(item, quantity);
   }
   clearTimeout(pendingCartChanges.get(key));
   pendingCartChanges.set(key, setTimeout(async () => {
