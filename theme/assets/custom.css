@@ -185,9 +185,9 @@ body .announcement .announce-star{font-size:10px;color:#d9c3a5;opacity:.9}
 .search-bar-form input{flex:1;min-width:0;height:58px;border:0;background:transparent;outline:0;font:500 16px Alexandria,sans-serif;color:#111}
 .search-bar-form input::placeholder{color:#8a8a8a}
 .search-bar-form input::-webkit-search-cancel-button{display:none}
-.search-panel{max-height:min(70vh,560px);overflow-y:auto;border-top:1px solid #ece5e0;background:#fff;transition:opacity .2s;overscroll-behavior:contain}
-.search-panel:empty{display:none}
-.search-panel.loading{opacity:.55}
+.sb-panel{max-height:min(70vh,560px);overflow-y:auto;border-top:1px solid #ece5e0;background:#fff;transition:opacity .2s;overscroll-behavior:contain}
+.sb-panel:empty{display:none}
+.sb-panel.loading{opacity:.55}
 .sp-pad{max-width:1100px;margin:0 auto;padding:18px 20px 22px}
 .sp-hint{font-size:13px;color:#777;margin:0 0 10px}
 .sp-chips{display:flex;flex-wrap:wrap;gap:8px}
