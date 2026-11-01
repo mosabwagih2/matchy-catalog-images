@@ -62,16 +62,3 @@
 
 .cart-item.is-pending .cart-quantity button{pointer-events:none}
 #cart-footer .pill[disabled]{opacity:1;cursor:progress}
-
-/* size tables (from the original site) */
-.size-chart{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px;text-align:center;table-layout:fixed}
-.size-chart caption{text-align:right;font-weight:550;margin-bottom:10px}
-.size-chart th,.size-chart td{border:1px solid #ddd;padding:12px 8px}
-.size-chart thead{background:#111;color:#fff}
-.size-chart tbody th{font-weight:400}
-.size-chart tbody tr:nth-child(even){background:#f6f6f6}
-.product-specs .material-copy{margin-bottom:14px}
-.page-content .size-chart{max-width:640px;margin:14px auto 30px}
-.page-content h3{margin:28px 0 6px;text-align:center}
-.page-content>p{max-width:640px;margin:0 auto 12px;text-align:center}
-@media(max-width:767px){.size-chart{font-size:12px}}
