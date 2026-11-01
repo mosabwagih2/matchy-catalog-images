@@ -141,15 +141,21 @@
       controller = new AbortController();
       results.classList.add('loading');
       try {
-        const url = `${root}search/suggest.json?q=${encodeURIComponent(q)}&resources[type]=product&resources[limit]=6`;
+        /* Shopify's predictive API does not support Arabic, so read the normal search results instead. */
+        const url = `${root}search?q=${encodeURIComponent(q)}&type=product&section_id=main-search`;
         const response = await fetch(url, { signal: controller.signal });
-        const data = await response.json();
-        const products = (data.resources && data.resources.results && data.resources.results.products) || [];
-        results.innerHTML = products.length
-          ? products.map(p => `<a class="search-item" href="${esc(p.url)}">` +
-              (p.featured_image ? `<img src="${esc(p.featured_image.url)}" alt="" width="64" height="85" loading="lazy">` : '<span class="ph"></span>') +
-              `<span><strong>${esc(p.title)}</strong><em>${esc(fmt(p.price))}</em></span></a>`).join('') +
-              `<a class="search-all" href="${root}search?q=${encodeURIComponent(q)}">عرض كل النتائج</a>`
+        const doc = new DOMParser().parseFromString(await response.text(), 'text/html');
+        const cards = $$('.product-card[data-product-url]', doc).slice(0, 6);
+        results.innerHTML = cards.length
+          ? cards.map(card => {
+              const img = $('.primary-image', card);
+              const src = img ? img.getAttribute('src').replace(/width=\d+/, 'width=200') : '';
+              const title = ($('.product-info h3', card) || {}).textContent || '';
+              const price = ($('.card-price strong', card) || {}).textContent || '';
+              return `<a class="search-item" href="${esc(card.dataset.productUrl)}">` +
+                (src ? `<img src="${esc(src)}" alt="" width="56" height="75" loading="lazy">` : '<span class="ph"></span>') +
+                `<span><strong>${esc(title.trim())}</strong><em>${esc(price.trim())}</em></span></a>`;
+            }).join('') + `<a class="search-all" href="${root}search?q=${encodeURIComponent(q)}">عرض كل النتائج</a>`
           : `<p class="search-hint">مفيش نتايج لـ «${esc(q)}». جرّبي كلمة تانية.</p>`;
       } catch (error) {
         if (error.name !== 'AbortError') results.innerHTML = '<p class="search-hint">حصلت مشكلة في البحث، جرّبي تاني.</p>';
