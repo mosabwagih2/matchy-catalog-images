@@ -47,7 +47,6 @@
 @view-transition{navigation:auto}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.22s}
 
-.fly-ghost{position:fixed;z-index:120;object-fit:cover;pointer-events:none;box-shadow:0 10px 30px rgba(0,0,0,.25)}
 
 .header{will-change:transform}
 .header.header-hidden{transform:translateY(-110%)}

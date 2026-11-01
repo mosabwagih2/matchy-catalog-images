@@ -1,4 +1,4 @@
-/* MATCHY UX layer, inspired by Shopify's Horizon theme: fly-to-cart, smart header, gallery swipe/zoom,
+/* MATCHY UX layer, inspired by Shopify's Horizon theme: smart header, gallery swipe/zoom,
    grid density and predictive search. Everything degrades to the normal links and forms without JS. */
 (() => {
   const $ = (s, r = document) => r.querySelector(s);
@@ -10,37 +10,6 @@
     return ((window.MATCHY && MATCHY.moneyFormat) || '{{amount}}').replace(/\{\{\s*\w+\s*\}\}/, amount);
   };
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-
-  /* ---------------------------------------------------------- fly to cart */
-  function flyToCart(source) {
-    const target = $('.header .cart-count')?.closest('a,button');
-    if (reduced || !source || !target || !source.getBoundingClientRect) return;
-    const from = source.getBoundingClientRect();
-    const to = target.getBoundingClientRect();
-    if (!from.width || !to.width) return;
-    const ghost = document.createElement('img');
-    ghost.src = source.currentSrc || source.src;
-    ghost.alt = '';
-    ghost.className = 'fly-ghost';
-    Object.assign(ghost.style, { left: from.left + 'px', top: from.top + 'px', width: from.width + 'px', height: from.height + 'px' });
-    document.body.append(ghost);
-    const dx = to.left + to.width / 2 - (from.left + from.width / 2);
-    const dy = to.top + to.height / 2 - (from.top + from.height / 2);
-    const animation = ghost.animate([
-      { transform: 'translate(0,0) scale(1)', opacity: 1, borderRadius: '14px' },
-      { transform: `translate(${dx}px,${dy}px) scale(.06)`, opacity: 0.4, borderRadius: '50%' }
-    ], { duration: 650, easing: 'cubic-bezier(.5,0,.3,1)' });
-    animation.onfinish = () => {
-      ghost.remove();
-      const bubble = $('.header .cart-count');
-      if (bubble) bubble.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.5)' }, { transform: 'scale(1)' }], { duration: 350 });
-    };
-  }
-
-  document.addEventListener('submit', event => {
-    if (!event.target.matches('#product-form') || !event.target.checkValidity()) return;
-    flyToCart($('#main-product-image'));
-  }, true);
 
   /* ------------------------------------------------- header hides on scroll down */
   const header = $('.header');
