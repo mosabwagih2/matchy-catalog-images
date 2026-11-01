@@ -112,14 +112,16 @@ function setWishCount() {
 }
 
 /* Re-render the drawer from the section so the markup has one source of truth. */
-async function refreshCartDrawer() {
+async function refreshCartDrawer(html) {
   const target = $('[data-cart-drawer-target]');
   if (!target) return;
   try {
-    const response = await fetch(`${routes.root || '/'}?sections=cart-drawer`);
-    if (!response.ok) throw new Error('cart section');
-    const sections = await response.json();
-    target.innerHTML = sections['cart-drawer'];
+    if (!html) {
+      const response = await fetch(`${routes.root || '/'}?sections=cart-drawer`);
+      if (!response.ok) throw new Error('cart section');
+      html = (await response.json())['cart-drawer'];
+    }
+    target.innerHTML = html;
     const contents = $('#cart-drawer-contents', target);
     if (contents) setCartCount(contents.dataset.cartCount || 0);
   } catch {
@@ -131,7 +133,7 @@ async function cartRequest(url, body) {
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-    body: JSON.stringify(body)
+    body: JSON.stringify({ ...body, sections: 'cart-drawer' })
   });
   const data = await response.json();
   if (!response.ok) throw new Error(data.description || data.message || strings.error);
@@ -142,19 +144,19 @@ async function addToCart(id, quantity) {
   const data = await cartRequest(routes.cartAdd || '/cart/add.js', {
     items: [{ id: Number(id), quantity: Number(quantity) || 1 }]
   });
-  await refreshCartDrawer();
+  await refreshCartDrawer(data.sections && data.sections['cart-drawer']);
   openPanel('cart');
   toast(strings.addedToCart || '');
   return data;
 }
 
 async function changeCartLine(key, quantity) {
-  await cartRequest(routes.cartChange || '/cart/change.js', { id: key, quantity: Number(quantity) });
+  const data = await cartRequest(routes.cartChange || '/cart/change.js', { id: key, quantity: Number(quantity) });
   if (document.body.classList.contains('template-cart')) {
     location.reload();
     return;
   }
-  await refreshCartDrawer();
+  await refreshCartDrawer(data.sections && data.sections['cart-drawer']);
 }
 
 /* --------------------------------------------------------------- wishlist */
@@ -430,8 +432,7 @@ function setupMotion() {
       observer.unobserve(entry.target);
     }
   }), { threshold: 0.08 });
-  $$('.reveal').forEach((el, i) => {
-    el.style.transitionDelay = (i % 3) * 70 + 'ms';
+  $$('.reveal').forEach(el => {
     observer.observe(el);
   });
 }
