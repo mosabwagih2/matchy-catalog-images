@@ -99,6 +99,12 @@ function openPanel(name) {
 
 /* ------------------------------------------------------------------- cart */
 
+/* "4-6 سنوات" reads naturally in Arabic as "من 4 إلى 6 سنوات". */
+function ageLabel(value) {
+  const m = String(value).match(/^(\d+)\s*-\s*(\d+)\s+(\S+)$/);
+  return m ? `من ${m[1]} إلى ${m[2]} ${m[3]}` : String(value);
+}
+
 function setCartCount(count) {
   $$('.cart-count').forEach(e => {
     e.textContent = String(Number(count));
@@ -577,7 +583,7 @@ async function showQuickView(handle) {
         ${product.options.map((option, index) => `
           <label>${escapeText(option.name)}
             <select name="option${index}" required>
-              ${option.values.map(v => `<option>${escapeText(v)}</option>`).join('')}
+              ${option.values.map(v => `<option value="${escapeText(v)}">${escapeText(ageLabel(v))}</option>`).join('')}
             </select>
           </label>`).join('')}
         <button class="pill" type="submit">أضف للحقيبة</button>
@@ -608,7 +614,7 @@ async function showQuickView(handle) {
         title: product.title,
         image: image,
         url: `${routes.root || '/'}products/${product.handle}`,
-        options: variant.options.join(' / ')
+        options: variant.options.map(ageLabel).join(' / ')
       });
       dialog.close();
     } catch (error) {
@@ -778,7 +784,7 @@ function bindEvents() {
         title: $('.product-panel h1')?.textContent.trim(),
         image: $('#main-product-image')?.currentSrc || $('#main-product-image')?.src,
         url: location.pathname,
-        options: chosen.options ? chosen.options.join(' / ') : ''
+        options: chosen.options ? chosen.options.map(ageLabel).join(' / ') : ''
       });
     } catch (err) {
       toast(err.message || strings.error);

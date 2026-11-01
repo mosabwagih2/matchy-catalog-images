@@ -159,7 +159,7 @@
                            {% if checked %}checked{% endif %}
                            {% unless value.available %}data-unavailable{% endunless %}
                            required>
-                    <span>{{ value }}</span>
+                    <span>{% render 'age-label', value: value %}</span>
                   </label>
                 {%- endfor -%}
               </div>

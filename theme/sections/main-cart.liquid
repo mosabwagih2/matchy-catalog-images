@@ -18,7 +18,7 @@
             {%- unless item.product.has_only_default_variant -%}
               <p>
                 {%- for option in item.options_with_values -%}
-                  {{ option.name }}: {{ option.value }}{% unless forloop.last %}<br>{% endunless %}
+                  {{ option.name }}: {% render 'age-label', value: option.value %}{% unless forloop.last %}<br>{% endunless %}
                 {%- endfor -%}
               </p>
             {%- endunless -%}
