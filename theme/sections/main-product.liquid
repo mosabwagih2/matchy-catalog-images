@@ -69,21 +69,26 @@
       <input type="hidden" name="id" value="{{ current.id }}" data-variant-id>
 
       {%- liquid
-        assign mother_kg = ''
-        if product.tags contains 'wsize-100'
-          assign mother_kg = '100'
-        elsif product.tags contains 'wsize-90'
-          assign mother_kg = '90'
-        endif
+        assign mother_min = ''
+        assign mother_max = ''
+        for tag in product.tags
+          if tag contains 'wsize-'
+            assign weight_parts = tag | remove: 'wsize-' | split: '-'
+            if weight_parts.size == 2
+              assign mother_min = weight_parts[0]
+              assign mother_max = weight_parts[1]
+            endif
+          endif
+        endfor
         assign mother_shown = false
       -%}
       {%- capture mother_size -%}
-        {%- if mother_kg != blank -%}
+        {%- if mother_max != blank -%}
           <fieldset class="product-field mother-size">
             <legend>{{ 'مقاس الأم' }}</legend>
             <div class="size-options">
               <label><input type="radio" checked disabled><span>One size</span></label>
-              <small class="size-note">من 60 إلى {{ mother_kg }} كجم</small>
+              <small class="size-note">من {{ mother_min }} إلى {{ mother_max }} كجم</small>
             </div>
           </fieldset>
         {%- endif -%}
