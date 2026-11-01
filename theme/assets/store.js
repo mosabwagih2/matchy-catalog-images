@@ -150,13 +150,51 @@ async function addToCart(id, quantity) {
   return data;
 }
 
+async function refreshCartPage() {
+  const current = $('.cart-page');
+  if (!current) return;
+  const response = await fetch(location.pathname, { headers: { Accept: 'text/html' } });
+  const doc = new DOMParser().parseFromString(await response.text(), 'text/html');
+  const next = $('.cart-page', doc);
+  if (next) current.replaceWith(next);
+}
+
 async function changeCartLine(key, quantity) {
   const data = await cartRequest(routes.cartChange || '/cart/change.js', { id: key, quantity: Number(quantity) });
-  if (document.body.classList.contains('template-cart')) {
-    location.reload();
-    return;
-  }
   await refreshCartDrawer(data.sections && data.sections['cart-drawer']);
+  if (document.body.classList.contains('template-cart')) await refreshCartPage();
+}
+
+/* Quantity buttons update the screen at once and send one request after a short pause. */
+const pendingCartChanges = new Map();
+
+function queueCartChange(button) {
+  const key = button.dataset.cartChange;
+  const quantity = Number(button.dataset.quantity);
+  const item = button.closest('[data-cart-item]');
+  if (item) {
+    item.classList.add('is-updating');
+    if (quantity <= 0) {
+      item.classList.add('is-removing');
+    } else {
+      const label = $('.cart-quantity span', item);
+      if (label) label.textContent = String(quantity);
+      const buttons = $$('.cart-quantity [data-cart-change]', item);
+      if (buttons[0]) buttons[0].dataset.quantity = String(quantity - 1);
+      if (buttons[1]) buttons[1].dataset.quantity = String(quantity + 1);
+    }
+  }
+  clearTimeout(pendingCartChanges.get(key));
+  pendingCartChanges.set(key, setTimeout(async () => {
+    pendingCartChanges.delete(key);
+    try {
+      await changeCartLine(key, quantity);
+    } catch (error) {
+      toast(error.message || strings.error);
+      await refreshCartDrawer();
+      if (document.body.classList.contains('template-cart')) await refreshCartPage();
+    }
+  }, 250));
 }
 
 /* --------------------------------------------------------------- wishlist */
@@ -528,13 +566,7 @@ function bindEvents() {
 
     if (button.hasAttribute('data-cart-change')) {
       event.preventDefault();
-      button.disabled = true;
-      try {
-        await changeCartLine(button.dataset.cartChange, button.dataset.quantity);
-      } catch (error) {
-        toast(error.message || strings.error);
-        button.disabled = false;
-      }
+      queueCartChange(button);
     }
 
     if (button.hasAttribute('data-back-options')) {
