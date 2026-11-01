@@ -64,6 +64,6 @@
 #cart-footer .pill[disabled]{opacity:1;cursor:progress}
 
 /* cart drawer: the body scrolls, header and checkout stay in view */
-[data-cart-drawer-target],#cart-drawer-contents{flex:1;min-height:0;display:flex;flex-direction:column}
+[data-cart-drawer-target],#shopify-section-cart-drawer,#cart-drawer-contents{flex:1;min-height:0;display:flex;flex-direction:column}
 #cart-panel .drawer-body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 #cart-panel .drawer-footer{flex:none}
