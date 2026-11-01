@@ -1,0 +1,35 @@
+{%- liquid
+  assign lines = section.settings.lines | split: '|'
+-%}
+
+{%- if lines.size > 0 -%}
+  {%- capture group -%}
+    {%- for line in lines -%}
+      <span>{{ line | strip }}</span>
+      <span class="marquee-star" aria-hidden="true">✦</span>
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  <div class="marquee">
+    <div class="marquee-track">
+      <div class="marquee-group">{{ group }}{{ group }}{{ group }}{{ group }}</div>
+      <div class="marquee-group" aria-hidden="true">{{ group }}{{ group }}{{ group }}{{ group }}</div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "الشريط المتحرك",
+  "settings": [
+    {
+      "type": "text",
+      "id": "lines",
+      "label": "العبارات",
+      "info": "افصل بين كل عبارة والتانية بعلامة |",
+      "default": "FAMILY MATCHING. MADE FOR LITTLE MOMENTS. | A LITTLE YOU. A LOT OF LOVE."
+    }
+  ],
+  "presets": [{ "name": "الشريط المتحرك" }]
+}
+{% endschema %}

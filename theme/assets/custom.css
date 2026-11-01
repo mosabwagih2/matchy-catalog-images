@@ -67,3 +67,8 @@
 [data-cart-drawer-target],#shopify-section-cart-drawer,#cart-drawer-contents{flex:1;min-height:0;display:flex;flex-direction:column}
 #cart-panel .drawer-body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 #cart-panel .drawer-footer{flex:none}
+
+/* marquee: always scroll left to right-to-left as one endless loop, even on the RTL page */
+.marquee{direction:ltr}
+.marquee-track{animation-duration:70s}
+.marquee-group{padding-right:55px;padding-left:0}
