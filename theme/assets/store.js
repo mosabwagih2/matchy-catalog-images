@@ -844,8 +844,14 @@ function bindEvents() {
 
   $('#zoom-modal img')?.addEventListener('click', () => $('#zoom-modal').classList.toggle('expanded'));
 
+  /* A drag that starts inside a dialog (selecting text) and ends outside must not close it:
+     only a press that began on the backdrop counts. */
+  let pressTarget = null;
+  document.addEventListener('mousedown', event => { pressTarget = event.target; }, true);
+  document.addEventListener('touchstart', event => { pressTarget = event.target; }, { capture: true, passive: true });
+
   $$('dialog').forEach(dialog => dialog.addEventListener('click', event => {
-    if (event.target !== dialog) return;
+    if (event.target !== dialog || pressTarget !== dialog) return;
     const rect = dialog.getBoundingClientRect();
     const outside = event.clientX < rect.left || event.clientX > rect.right ||
                     event.clientY < rect.top || event.clientY > rect.bottom;
