@@ -108,3 +108,11 @@
 @media(max-width:860px){.contact-cards{grid-template-columns:1fr}.contact-layout{grid-template-columns:1fr}.contact-form-wrap,.contact-help{padding:24px 20px}.contact-row{grid-template-columns:1fr}}
 
 .contact-layout{grid-template-columns:minmax(0,1fr);max-width:640px;margin-inline:auto}
+
+/* sold-out options: crossed out but still selectable so the shopper can see the item */
+.size-options label.is-soldout span{color:#9a9a9a;text-decoration:line-through;text-decoration-thickness:1.5px;background:#f6f4f2;border-color:#e6e1dd}
+.size-options label.is-soldout input:checked+span{color:#fff;background:#111;border-color:#111;text-decoration-color:#fff}
+.color-option.is-soldout{opacity:.5;position:relative;overflow:hidden}
+.color-option.is-soldout::after{content:"";position:absolute;inset:0;background:linear-gradient(to top right,transparent calc(50% - 1.5px),#d33 calc(50% - 1.5px),#d33 calc(50% + 1.5px),transparent calc(50% + 1.5px))}
+.card-swatch.is-soldout{opacity:.45;position:relative;overflow:hidden}
+.card-swatch.is-soldout::after{content:"";position:absolute;inset:0;background:linear-gradient(to top right,transparent calc(50% - 1px),#d33 calc(50% - 1px),#d33 calc(50% + 1px),transparent calc(50% + 1px))}

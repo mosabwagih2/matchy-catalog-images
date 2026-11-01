@@ -405,12 +405,34 @@ function matchVariant(values) {
   );
 }
 
+/* Cross out every option value that has no in-stock variant with the other current choices. */
+function paintAvailability() {
+  const form = $('#product-form');
+  if (!form || !productState.variants.length) return;
+  const selected = currentOptions();
+  const soldOutText = strings.soldOut || '';
+  $$('[data-option-index]', form).forEach(control => {
+    const position = Number(control.dataset.optionIndex);
+    const value = control.dataset.optionValue !== undefined ? control.dataset.optionValue : control.value;
+    const test = selected.slice();
+    test[position - 1] = value;
+    const inStock = productState.variants.some(v => v.available && test.every((val, i) => val === null || v.options[i] === val));
+    const holder = control.matches('input') ? control.closest('label') : control;
+    if (!holder) return;
+    holder.classList.remove('unavailable');
+    holder.classList.toggle('is-soldout', !inStock);
+    if (control.matches('input')) control.removeAttribute('data-unavailable');
+    holder.title = inStock ? '' : soldOutText;
+  });
+}
+
 function updateVariant() {
   const form = $('#product-form');
   if (!form) return;
 
   const variant = matchVariant(currentOptions());
   productState.selected = variant;
+  paintAvailability();
 
   const idInput = $('[data-variant-id]', form);
   const button = $('[data-add-to-cart]', form);
@@ -842,6 +864,7 @@ function init() {
   setCartCount(config.cartCount || 0);
   syncWishButtons();
   readVariantData();
+  paintAvailability();
   if ($('.gallery-thumb')) preloadGallery();
   bindEvents();
   setupMotion();
