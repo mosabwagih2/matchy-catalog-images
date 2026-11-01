@@ -1,0 +1,111 @@
+{%- comment -%}
+  Renders one product card.
+
+  Accepts:
+  - product: {Object} product
+  - lazy: {Boolean} lazy-load the images (default true)
+
+  Colour swatches come from the product option named in settings.color_option_name.
+  Each option value uses Shopify's native swatch (hex or image) set in the product admin;
+  when a value has no swatch configured the card falls back to a neutral chip.
+{%- endcomment -%}
+
+{%- liquid
+  assign loading = 'lazy'
+  if lazy == false
+    assign loading = 'eager'
+  endif
+
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    assign on_sale = true
+    assign discount = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round
+  endif
+
+  assign color_option = null
+  for option in product.options_with_values
+    if option.name == settings.color_option_name
+      assign color_option = option
+    endif
+  endfor
+
+  assign primary = product.featured_media
+  assign secondary = product.media[1] | default: primary
+-%}
+
+<article class="product-card" data-card="{{ product.id }}" data-product-url="{{ product.url }}">
+  <div class="product-image">
+    <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+      {%- if primary -%}
+        <img class="primary-image"
+             src="{{ primary | image_url: width: 860 }}"
+             srcset="{{ primary | image_url: width: 430 }} 430w, {{ primary | image_url: width: 860 }} 860w"
+             sizes="(min-width: 1024px) 25vw, 50vw"
+             alt="{{ primary.alt | default: product.title | escape }}"
+             loading="{{ loading }}" width="430" height="573">
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'primary-image placeholder' }}
+      {%- endif -%}
+
+      {%- if secondary and secondary != primary -%}
+        <img class="secondary-image"
+             src="{{ secondary | image_url: width: 860 }}"
+             srcset="{{ secondary | image_url: width: 430 }} 430w, {{ secondary | image_url: width: 860 }} 860w"
+             sizes="(min-width: 1024px) 25vw, 50vw"
+             alt="{{ secondary.alt | default: product.title | escape }}"
+             loading="lazy" width="430" height="573">
+      {%- endif -%}
+    </a>
+
+    {%- if product.available == false -%}
+      <span class="sale-badge sold-out">{{ 'products.product.sold_out' | t }}</span>
+    {%- elsif on_sale -%}
+      <span class="sale-badge">-{{ discount }}٪</span>
+    {%- endif -%}
+
+    <div class="card-tools">
+      <button class="icon-btn wish"
+              data-wish="{{ product.id }}"
+              data-wish-handle="{{ product.handle }}"
+              aria-label="{{ 'products.product.save_item' | t: title: product.title }}"
+              aria-pressed="false">{% render 'icon', icon: 'heart' %}</button>
+      <button class="icon-btn"
+              data-quick="{{ product.handle }}"
+              aria-label="{{ 'products.product.quick_view_for' | t: title: product.title }}">{% render 'icon', icon: 'search' %}</button>
+    </div>
+
+    <a class="quick-add" href="{{ product.url }}">{{ 'products.product.choose_details' | t }}</a>
+  </div>
+
+  <div class="product-info">
+    <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+
+    <div class="card-price">
+      {%- if product.price_varies -%}
+        <strong>{{ 'products.product.from_price' | t: price: product.price_min | money }}</strong>
+      {%- else -%}
+        <strong>{{ product.price | money }}</strong>
+      {%- endif -%}
+      {%- if on_sale -%}<del>{{ product.compare_at_price | money }}</del>{%- endif -%}
+    </div>
+
+    {%- if color_option and color_option.values.size > 1 -%}
+      <div class="card-swatches" role="group" aria-label="{{ 'products.product.colors_for' | t: title: product.title }}">
+        {%- for value in color_option.values limit: 6 -%}
+          {%- liquid
+            assign variant = value.variant
+            assign swatch_image = ''
+            if variant.featured_media
+              assign swatch_image = variant.featured_media | image_url: width: 860
+            endif
+          -%}
+          <button class="card-swatch{% if forloop.first %} active{% endif %}{% unless value.available %} is-soldout{% endunless %}"
+                  {% if value.swatch.color %}style="--swatch: {{ value.swatch.color }}"{% elsif value.swatch.image %}style="--swatch: url({{ value.swatch.image | image_url: width: 40 }}) center/cover"{% endif %}
+                  data-card-color="{{ swatch_image }}"
+                  aria-label="{{ value | escape }}"
+                  aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</article>
