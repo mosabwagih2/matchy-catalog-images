@@ -224,10 +224,12 @@
 
 
 {%- if has_kids or has_women -%}
-  <dialog id="size-chart-modal" class="sc-modal" onclick="if(event.target===this)this.close()">
-    <form method="dialog"><button class="sc-close" aria-label="إغلاق">✕</button></form>
-    <h2>جدول المقاسات</h2>
-    {% render 'size-chart', show_women: has_women, show_kids: has_kids, weight_min: mother_min, weight_max: mother_max %}
+  <dialog id="size-chart-modal" class="sc-modal" onmousedown="this.dataset.down = event.target === this ? '1' : ''" onclick="if (this.dataset.down === '1' && event.target === this) this.close()">
+    <div class="sc-modal-body">
+      <form method="dialog"><button class="sc-close" aria-label="إغلاق">✕</button></form>
+      <h2>جدول المقاسات</h2>
+      {% render 'size-chart', show_women: has_women, show_kids: has_kids, weight_min: mother_min, weight_max: mother_max %}
+    </div>
   </dialog>
 {%- endif -%}
 

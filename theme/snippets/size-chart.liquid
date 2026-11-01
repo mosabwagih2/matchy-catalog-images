@@ -39,7 +39,6 @@
         <table class="sc-table">
           <thead>
             <tr>
-              <th scope="col">المقاس</th>
               <th scope="col">السن</th>
               <th scope="col">من الباط للباط</th>
               <th scope="col">الكتف</th>
@@ -52,8 +51,7 @@
               {%- assign cells = row | split: '|' -%}
               {%- assign ages = cells[1] | split: '–' -%}
               <tr>
-                <th scope="row"><span class="sc-badge">{{ cells[0] }}</span></th>
-                <td class="sc-age">من {{ ages[0] }} إلى {{ ages[1] }} سنوات</td>
+                <th scope="row" class="sc-age">من {{ ages[0] }} إلى {{ ages[1] }} سنوات</th>
                 <td data-label="من الباط للباط">{{ cells[2] }}</td>
                 <td data-label="الكتف">{{ cells[3] }}</td>
                 <td data-label="طول التوب">{{ cells[4] }}</td>
