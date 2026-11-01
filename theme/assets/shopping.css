@@ -7,13 +7,16 @@
 .card-swatch[aria-label="بني"],.color-option[aria-label="بني"]{--swatch:#4A3728}
 .card-swatch[aria-label="بيبي بلو"],.color-option[aria-label="بيبي بلو"]{--swatch:#A9CCE3}
 .card-swatch[aria-label="بيج"],.color-option[aria-label="بيج"]{--swatch:#D9C3A5}
-.card-swatch[aria-label="جملي"],.color-option[aria-label="جملي"]{--swatch:#B8864B}
+.card-swatch[aria-label="جملي"],.color-option[aria-label="جملي"]{--swatch:#A44A1E}
 .card-swatch[aria-label="جنزاري"],.color-option[aria-label="جنزاري"]{--swatch:#1F5F5B}
-.card-swatch[aria-label="زيتي"],.color-option[aria-label="زيتي"]{--swatch:#6B7B4A}
-.card-swatch[aria-label="كشمير"],.color-option[aria-label="كشمير"]{--swatch:#CDB89A}
-.card-swatch[aria-label="كشمير ترابي"],.color-option[aria-label="كشمير ترابي"]{--swatch:#8A6F55}
+.card-swatch[aria-label="زيتي"],.color-option[aria-label="زيتي"]{--swatch:#78938A}
+.card-swatch[aria-label="كشمير"],.color-option[aria-label="كشمير"]{--swatch:#D8909A}
+.card-swatch[aria-label="كشمير ترابي"],.color-option[aria-label="كشمير ترابي"]{--swatch:#B05963}
 .card-swatch[aria-label="كيوي"],.color-option[aria-label="كيوي"]{--swatch:#8DB600}
 .card-swatch[aria-label="لافندر"],.color-option[aria-label="لافندر"]{--swatch:#B39DDB}
-.card-swatch[aria-label="ليموني"],.color-option[aria-label="ليموني"]{--swatch:#F2E34C}
+.card-swatch[aria-label="ليموني"],.color-option[aria-label="ليموني"]{--swatch:#BFC72A}
 .card-swatch[aria-label="نبيتي"],.color-option[aria-label="نبيتي"]{--swatch:#7B1F3A}
 .color-option.unavailable{opacity:.35}.detail-copy h3{font-size:15px;margin:14px 0 6px}.detail-copy p{margin:0 0 6px}.detail-copy hr{border:0;border-top:1px solid #eee;margin:14px 0}
+.card-swatch[aria-label="أخضر"],.color-option[aria-label="أخضر"]{--swatch:#1E5B52}
+.card-swatch[aria-label="أزرق"],.color-option[aria-label="أزرق"]{--swatch:#28628C}
+.card-swatch[aria-label="أزرق ملكي"],.color-option[aria-label="أزرق ملكي"]{--swatch:#0B3A9E}
