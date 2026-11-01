@@ -5,11 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#ffffff">
   <link rel="canonical" href="{{ canonical_url }}">
-  {%- if settings.favicon != blank -%}
-    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
-  {%- else -%}
-    <link rel="icon" type="image/png" href="{{ 'matchy-logo.png' | asset_url }}">
-  {%- endif -%}
+  <link rel="icon" type="image/png" href="{{ 'matchy-favicon.png' | asset_url }}">
+  <link rel="apple-touch-icon" href="{{ 'matchy-favicon.png' | asset_url }}">
 
   <title>{{ page_title }}{% if current_tags %} &ndash; {{ 'general.meta.tags' | t: tags: current_tags | join: ', ' }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
 
