@@ -22,7 +22,7 @@
     </nav>
 
     <div class="header-tools">
-      <a class="icon-btn" href="{{ routes.search_url }}" aria-label="{{ 'general.search.search' | t }}">
+      <a class="icon-btn" href="{{ routes.search_url }}" data-search-open aria-label="{{ 'general.search.search' | t }}" aria-controls="search-bar" aria-expanded="false">
         {% render 'icon', icon: 'search' %}
       </a>
 
@@ -36,6 +36,15 @@
         <span class="badge-count cart-count">{{ cart.item_count }}</span>
       </a>
     </div>
+  </div>
+
+  <div class="search-bar" id="search-bar" hidden>
+    <form class="search-bar-form" action="{{ routes.search_url }}" method="get" role="search">
+      <span class="search-bar-icon" aria-hidden="true">{% render 'icon', icon: 'search' %}</span>
+      <input type="search" name="q" placeholder="دوّري على عباية، فستان، سوت…" autocomplete="off" aria-label="{{ 'general.search.search' | t }}">
+      <button type="button" class="icon-btn" data-search-close aria-label="{{ 'general.menu.close' | t }}">{% render 'icon', icon: 'close' %}</button>
+    </form>
+    <div class="search-panel" data-search-results aria-live="polite"></div>
   </div>
 </header>
 

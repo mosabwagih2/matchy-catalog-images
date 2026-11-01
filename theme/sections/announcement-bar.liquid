@@ -1,0 +1,24 @@
+{%- if section.settings.text != blank -%}
+  <div class="announcement">
+    <span class="announce-star" aria-hidden="true">✦</span>
+    <span class="announce-text">{{ section.settings.text }}</span>
+    <span class="announce-star" aria-hidden="true">✦</span>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "شريط الإعلان",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "النص",
+      "default": "ليك، وللبنت، وللحظاتكم الحلوة."
+    }
+  ],
+  "default": {
+    "settings": {}
+  }
+}
+{% endschema %}
