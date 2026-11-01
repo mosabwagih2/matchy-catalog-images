@@ -157,7 +157,7 @@ function showPendingCartItem(id, quantity, preview) {
   }
   if ($('.empty-state', items)) items.innerHTML = '';
   const row = document.createElement('article');
-  row.className = 'cart-item is-updating';
+  row.className = 'cart-item is-pending';
   row.dataset.cartItem = id + ':pending';
   row.dataset.unitPrice = String(preview.price);
   row.dataset.unitOriginal = String(preview.price);
@@ -166,8 +166,16 @@ function showPendingCartItem(id, quantity, preview) {
     `<div><h3><a href="${escapeText(preview.url || '#')}">${escapeText(preview.title || '')}</a></h3>` +
     (preview.options ? `<p>${escapeText(preview.options)}</p>` : '') +
     `<strong data-line-price></strong>` +
-    `<div class="cart-quantity"><span>${quantity}</span></div></div>`;
+    `<div class="cart-quantity"><button type="button" disabled>−</button><span>${quantity}</span>` +
+    `<button type="button" disabled>+</button><button type="button" class="remove" disabled>${escapeText(strings.cartRemove || '')}</button></div></div>`;
   items.prepend(row);
+  const footer = $('#cart-footer');
+  if (footer && !footer.children.length) {
+    footer.innerHTML =
+      `<div class="cart-total"><span>${escapeText(strings.cartSubtotal || '')}</span><strong data-cart-subtotal></strong></div>` +
+      `<button class="pill" type="button" disabled>${escapeText(strings.cartCheckout || '')}</button>` +
+      `<small>${escapeText(strings.cartNote || '')}</small>`;
+  }
   updateCartTotals(row, quantity);
 }
 
