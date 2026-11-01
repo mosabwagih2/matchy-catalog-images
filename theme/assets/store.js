@@ -188,7 +188,9 @@ async function addToCart(id, quantity, preview) {
     await refreshCartDrawer();
     throw error;
   }
-  await refreshCartDrawer(data.sections && data.sections['cart-drawer']);
+  if (!cartBusy && !flushPending && !desiredQuantities.size) {
+    await refreshCartDrawer(data.sections && data.sections['cart-drawer']);
+  }
   return data;
 }
 
@@ -201,14 +203,13 @@ async function refreshCartPage() {
   if (next) current.replaceWith(next);
 }
 
-async function changeCartLine(key, quantity) {
-  const data = await cartRequest(routes.cartChange || '/cart/change.js', { id: key, quantity: Number(quantity) });
-  await refreshCartDrawer(data.sections && data.sections['cart-drawer']);
-  if (document.body.classList.contains('template-cart')) await refreshCartPage();
-}
-
-/* Quantity buttons update the screen at once and send one request after a short pause. */
-const pendingCartChanges = new Map();
+/* Quantity buttons update the screen at once. Requests run one at a time and the screen is
+   only replaced by a server answer when no newer click is waiting, so fast clicking never
+   jumps back to an older number. */
+const desiredQuantities = new Map();
+let cartBusy = false;
+let flushPending = false;
+let flushTimer;
 
 function updateCartTotals(item, quantity) {
   const unit = Number(item.dataset.unitPrice);
@@ -252,17 +253,37 @@ function queueCartChange(button) {
     }
     updateCartTotals(item, quantity);
   }
-  clearTimeout(pendingCartChanges.get(key));
-  pendingCartChanges.set(key, setTimeout(async () => {
-    pendingCartChanges.delete(key);
-    try {
-      await changeCartLine(key, quantity);
-    } catch (error) {
-      toast(error.message || strings.error);
-      await refreshCartDrawer();
-      if (document.body.classList.contains('template-cart')) await refreshCartPage();
+  desiredQuantities.set(key, quantity);
+  flushPending = true;
+  clearTimeout(flushTimer);
+  flushTimer = setTimeout(() => {
+    flushPending = false;
+    flushCartChanges();
+  }, 200);
+}
+
+async function flushCartChanges() {
+  if (cartBusy) return;
+  cartBusy = true;
+  try {
+    while (desiredQuantities.size) {
+      const [key, quantity] = desiredQuantities.entries().next().value;
+      const data = await cartRequest(routes.cartChange || '/cart/change.js', { id: key, quantity });
+      if (desiredQuantities.get(key) === quantity) desiredQuantities.delete(key);
+      if (!desiredQuantities.size && !flushPending) {
+        await refreshCartDrawer(data.sections && data.sections['cart-drawer']);
+        if (document.body.classList.contains('template-cart')) await refreshCartPage();
+      }
     }
-  }, 250));
+  } catch (error) {
+    desiredQuantities.clear();
+    toast(error.message || strings.error);
+    await refreshCartDrawer();
+    if (document.body.classList.contains('template-cart')) await refreshCartPage();
+  } finally {
+    cartBusy = false;
+    if (desiredQuantities.size && !flushPending) flushCartChanges();
+  }
 }
 
 /* --------------------------------------------------------------- wishlist */
