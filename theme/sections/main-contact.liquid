@@ -42,39 +42,6 @@
   </div>
 
   <div class="contact-layout">
-    <div class="contact-form-wrap">
-      <h2>ابعتيلنا رسالة</h2>
-      <p class="contact-lead">اكتبي استفسارك وهنرد عليكي في أقرب وقت.</p>
-
-      {%- form 'contact', class: 'contact-form' -%}
-        {%- if form.posted_successfully? -%}
-          <p class="contact-status success" role="status">وصلتنا رسالتك، شكرًا ليكي. هنرد عليكي في أقرب وقت.</p>
-        {%- elsif form.errors -%}
-          <p class="contact-status error" role="alert">في حاجة ناقصة في البيانات. اتأكدي من الاسم والبريد والرسالة وجرّبي تاني.</p>
-        {%- endif -%}
-
-        <div class="contact-row">
-          <label>
-            <span>الاسم</span>
-            <input type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}" required>
-          </label>
-          <label>
-            <span>رقم الموبايل</span>
-            <input type="tel" name="contact[phone]" autocomplete="tel" dir="ltr" value="{{ form.phone }}">
-          </label>
-        </div>
-        <label>
-          <span>البريد الإلكتروني</span>
-          <input type="email" name="contact[email]" autocomplete="email" dir="ltr" value="{{ form.email }}" required>
-        </label>
-        <label>
-          <span>رسالتك</span>
-          <textarea name="contact[body]" rows="5" required>{{ form.body }}</textarea>
-        </label>
-        <button class="pill" type="submit">إرسال الرسالة</button>
-      {%- endform -%}
-    </div>
-
     <aside class="contact-help">
       <h2>قبل ما تبعتي رسالة</h2>
       <ul>
