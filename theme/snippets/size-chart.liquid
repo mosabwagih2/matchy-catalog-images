@@ -52,11 +52,11 @@
               {%- assign cells = row | split: '|' -%}
               <tr>
                 <th scope="row"><span class="sc-badge">{{ cells[0] }}</span></th>
-                <td><bdi dir="ltr">{{ cells[1] }}</bdi> سنوات</td>
-                <td>{{ cells[2] }}</td>
-                <td>{{ cells[3] }}</td>
-                <td>{{ cells[4] }}</td>
-                <td>{{ cells[5] }}</td>
+                <td class="sc-age"><bdi dir="ltr">{{ cells[1] }}</bdi> سنوات</td>
+                <td data-label="من الباط للباط">{{ cells[2] }}</td>
+                <td data-label="الكتف">{{ cells[3] }}</td>
+                <td data-label="طول التوب">{{ cells[4] }}</td>
+                <td data-label="طول الجيبة">{{ cells[5] }}</td>
               </tr>
             {%- endfor -%}
           </tbody>
