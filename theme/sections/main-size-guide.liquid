@@ -1,0 +1,16 @@
+<div class="collection-title">
+  <h1>{{ page.title }}</h1>
+  <p>اعرفي المقاس المناسب ليكي ولبنتك.</p>
+</div>
+
+<section class="container section-space sc-page">
+  {% render 'size-chart', show_women: true, show_kids: true %}
+</section>
+
+{% schema %}
+{
+  "name": "دليل المقاسات",
+  "settings": [],
+  "presets": [{ "name": "دليل المقاسات" }]
+}
+{% endschema %}

@@ -82,6 +82,23 @@
         endfor
         assign mother_shown = false
       -%}
+      {%- liquid
+        assign has_kids = false
+        if product.options contains 'مقاس البنت'
+          assign has_kids = true
+        endif
+        assign has_women = false
+        if mother_max != blank
+          assign has_women = true
+        endif
+      -%}
+      {%- if has_kids or has_women -%}
+        <button type="button" class="size-chart-link" onclick="document.getElementById('size-chart-modal').showModal()">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17 17 3l4 4L7 21z"/><path d="m7 13 2 2M10 10l2 2M13 7l2 2"/></svg>
+          جدول المقاسات
+        </button>
+      {%- endif -%}
+
       {%- capture mother_size -%}
         {%- if mother_max != blank -%}
           <fieldset class="product-field mother-size">
@@ -204,6 +221,15 @@
     {%- endif -%}
   </div>
 </div>
+
+
+{%- if has_kids or has_women -%}
+  <dialog id="size-chart-modal" class="sc-modal" onclick="if(event.target===this)this.close()">
+    <form method="dialog"><button class="sc-close" aria-label="إغلاق">✕</button></form>
+    <h2>جدول المقاسات</h2>
+    {% render 'size-chart', show_women: has_women, show_kids: has_kids, weight_min: mother_min, weight_max: mother_max %}
+  </dialog>
+{%- endif -%}
 
 {%- if section.settings.related_collection != blank -%}
   <section class="section-space container">

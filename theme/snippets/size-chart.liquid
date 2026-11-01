@@ -1,0 +1,67 @@
+{%- comment -%}
+  Size chart. Accepts:
+  - show_women: {Boolean} show the mother chart
+  - show_kids: {Boolean} show the girl chart
+  - weight_min / weight_max: {String} optional weight range for the mother (defaults to 60–100)
+  All measurements are in centimetres.
+{%- endcomment -%}
+
+{%- liquid
+  assign w_min = weight_min | default: '60'
+  assign w_max = weight_max | default: '100'
+  assign kids_rows = '6|4–6|36|30|33|37,8|6–8|38|31|36|41,10|8–10|41|32|39|45,12|10–12|44|33|41|49' | split: ','
+-%}
+
+<div class="sc">
+  {%- if show_women -%}
+    <section class="sc-block">
+      <header class="sc-head">
+        <span class="sc-tag">للأم</span>
+        <h3>مقاس واحد (وان سايز)</h3>
+        <p>تلبيس من {{ w_min }} إلى {{ w_max }} كجم · الطول حتى 180 سم</p>
+      </header>
+      <div class="sc-stats">
+        <div><strong>167</strong><span>الطول</span></div>
+        <div><strong>58</strong><span>الوسط</span></div>
+        <div><strong>62</strong><span>من الباط للباط</span></div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  {%- if show_kids -%}
+    <section class="sc-block">
+      <header class="sc-head">
+        <span class="sc-tag">للبنت</span>
+        <h3>مقاسات البنوتة</h3>
+        <p>اختاري المقاس حسب السن، والقياسات بالسنتيمتر.</p>
+      </header>
+      <div class="sc-scroll">
+        <table class="sc-table">
+          <thead>
+            <tr>
+              <th scope="col">المقاس</th>
+              <th scope="col">السن</th>
+              <th scope="col">من الباط للباط</th>
+              <th scope="col">الكتف</th>
+              <th scope="col">طول التوب</th>
+              <th scope="col">طول الجيبة</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for row in kids_rows -%}
+              {%- assign cells = row | split: '|' -%}
+              <tr>
+                <th scope="row"><span class="sc-badge">{{ cells[0] }}</span></th>
+                <td>{{ cells[1] }} سنوات</td>
+                <td>{{ cells[2] }}</td>
+                <td>{{ cells[3] }}</td>
+                <td>{{ cells[4] }}</td>
+                <td>{{ cells[5] }}</td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  {%- endif -%}
+</div>
