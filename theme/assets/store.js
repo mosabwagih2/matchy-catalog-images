@@ -459,15 +459,21 @@ const mainImageUrl = thumb => {
   return img ? img.src.replace(/width=\d+/, 'width=1200') : '';
 };
 
-/* Warm the browser cache with every gallery image so switching colours swaps instantly. */
+/* Warm the browser cache with the gallery images, colour pictures first, so switching colours swaps instantly. */
+const warmImages = new Map();
+
+function warmImage(url) {
+  if (!url || warmImages.has(url)) return;
+  const probe = new Image();
+  probe.decoding = 'async';
+  probe.src = url;
+  warmImages.set(url, probe);
+}
+
 function preloadGallery() {
-  $$('.gallery-thumb').forEach(thumb => {
-    const url = mainImageUrl(thumb);
-    if (!url) return;
-    const probe = new Image();
-    probe.decoding = 'async';
-    probe.src = url;
-  });
+  const thumbs = $$('.gallery-thumb');
+  const colourFirst = $$('.color-option').map(b => thumbs.find(t => t.dataset.mediaId && t.dataset.mediaId === b.dataset.mediaId));
+  [...colourFirst, ...thumbs].forEach(thumb => thumb && warmImage(mainImageUrl(thumb)));
 }
 
 function selectMedia(thumb) {
@@ -836,7 +842,7 @@ function init() {
   setCartCount(config.cartCount || 0);
   syncWishButtons();
   readVariantData();
-  if ($('.gallery-thumb')) setTimeout(preloadGallery, 150);
+  if ($('.gallery-thumb')) preloadGallery();
   bindEvents();
   setupMotion();
 }
