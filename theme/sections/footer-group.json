@@ -1,0 +1,18 @@
+{
+  "name": "الفوتر",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "shop": { "type": "menu", "settings": { "heading": "تسوّق", "menu": "main-menu" } },
+        "help": { "type": "help", "settings": { "heading": "نساعدك تختار", "menu": "footer" } }
+      },
+      "block_order": ["shop", "help"],
+      "settings": {
+        "tagline": "شبهك في الروح، وشبهك في اللوك.\nأزياء للأم والبنت، للحظاتكم الحلوة."
+      }
+    }
+  },
+  "order": ["footer"]
+}

@@ -30,36 +30,14 @@
               {%- for link in block.settings.menu.links -%}
                 <a href="{{ link.url }}">{{ link.title }}</a>
               {%- endfor -%}
-              <button data-panel="wishlist">{{ 'general.wishlist.title' | t }}</button>
             </div>
 
-          {%- when 'newsletter' -%}
-            <div class="footer-column" {{ block.shopify_attributes }}>
-              <h3>{{ block.settings.heading }}</h3>
-              {%- if block.settings.text != blank -%}<p>{{ block.settings.text }}</p>{%- endif -%}
-              {%- form 'customer', class: 'newsletter-form' -%}
-                <input type="hidden" name="contact[tags]" value="newsletter">
-                <label class="visually-hidden" for="footer-email">{{ 'general.newsletter.email' | t }}</label>
-                <input id="footer-email" type="email" name="contact[email]"
-                       placeholder="{{ 'general.newsletter.email' | t }}"
-                       autocomplete="email" required>
-                <button class="pill" type="submit">{{ 'general.newsletter.submit' | t }}</button>
-                {%- if form.posted_successfully? -%}
-                  <p class="newsletter-status" role="status">{{ 'general.newsletter.success' | t }}</p>
-                {%- elsif form.errors -%}
-                  <p class="newsletter-status" role="alert">{{ form.errors.messages.email }}</p>
-                {%- endif -%}
-              {%- endform -%}
-            </div>
         {%- endcase -%}
       {%- endfor -%}
     </div>
 
     <div class="footer-bottom">
       <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ 'general.footer.rights' | t }}</span>
-      {%- if section.settings.locale_note != blank -%}
-        <span>{{ section.settings.locale_note }}</span>
-      {%- endif -%}
     </div>
   </div>
 </footer>
@@ -74,12 +52,6 @@
       "id": "tagline",
       "label": "وصف قصير",
       "default": "شبهك في الروح، وشبهك في اللوك.\nأزياء للأم والبنت، للحظاتكم الحلوة."
-    },
-    {
-      "type": "text",
-      "id": "locale_note",
-      "label": "ملاحظة الدولة والعملة",
-      "default": "مصر · الأسعار بالجنيه المصري"
     }
   ],
   "blocks": [
@@ -99,15 +71,6 @@
       "settings": [
         { "type": "text", "id": "heading", "label": "العنوان", "default": "نساعدك تختار" },
         { "type": "link_list", "id": "menu", "label": "القائمة", "default": "footer" }
-      ]
-    },
-    {
-      "type": "newsletter",
-      "name": "النشرة البريدية",
-      "limit": 1,
-      "settings": [
-        { "type": "text", "id": "heading", "label": "العنوان", "default": "اعرف الجديد" },
-        { "type": "textarea", "id": "text", "label": "النص", "default": "سجّل بريدك عشان يوصلك كل جديد." }
       ]
     }
   ]
