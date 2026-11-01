@@ -454,19 +454,48 @@ function showMedia(mediaId) {
   selectMedia(thumb);
 }
 
+const mainImageUrl = thumb => {
+  const img = $('img', thumb);
+  return img ? img.src.replace(/width=\d+/, 'width=1200') : '';
+};
+
+/* Warm the browser cache with every gallery image so switching colours swaps instantly. */
+function preloadGallery() {
+  $$('.gallery-thumb').forEach(thumb => {
+    const url = mainImageUrl(thumb);
+    if (!url) return;
+    const probe = new Image();
+    probe.decoding = 'async';
+    probe.src = url;
+  });
+}
+
 function selectMedia(thumb) {
   const main = $('#main-product-image');
   const img = $('img', thumb);
   if (!main || !img) return;
-  main.src = img.src.replace(/width=\d+/, 'width=1200');
-  main.srcset = '';
+  const url = mainImageUrl(thumb);
+  const apply = () => {
+    main.src = url;
+    main.srcset = '';
+  };
   main.alt = img.alt;
-  main.dataset.full = thumb.dataset.full || main.src;
+  main.dataset.full = thumb.dataset.full || url;
   $$('.gallery-thumb').forEach(b => {
     const on = b === thumb;
     b.classList.toggle('active', on);
     b.setAttribute('aria-pressed', String(on));
   });
+  /* Keep the old picture until the new one is ready, so there is never a blank flash. */
+  const probe = new Image();
+  probe.src = url;
+  if (probe.complete) {
+    apply();
+  } else {
+    main.src = img.src;
+    main.srcset = '';
+    probe.onload = () => { if (main.alt === img.alt && main.dataset.full === (thumb.dataset.full || url)) apply(); };
+  }
 }
 
 function selectColorSwatch(button) {
@@ -807,6 +836,7 @@ function init() {
   setCartCount(config.cartCount || 0);
   syncWishButtons();
   readVariantData();
+  if ($('.gallery-thumb')) setTimeout(preloadGallery, 150);
   bindEvents();
   setupMotion();
 }
