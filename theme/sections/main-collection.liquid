@@ -20,6 +20,7 @@
         {%- for option in collection.sort_options -%}
           {%- case option.value -%}
             {%- when 'manual' -%}{%- assign sort_label = 'مختاراتنا' -%}
+            {%- when 'most-relevant' -%}{%- assign sort_label = 'الأكثر صلة' -%}
             {%- when 'best-selling' -%}{%- assign sort_label = 'الأكثر مبيعًا' -%}
             {%- when 'title-ascending' -%}{%- assign sort_label = 'الاسم: أ - ي' -%}
             {%- when 'title-descending' -%}{%- assign sort_label = 'الاسم: ي - أ' -%}
@@ -40,7 +41,13 @@
     {%- if collection.products.size > 0 -%}
       <div class="collection-grid" id="collection-products">
         {%- for product in collection.products -%}
-          {% render 'product-card', product: product, lazy: forloop.index > 4 %}
+          {%- liquid
+            assign lazy_images = true
+            if forloop.index <= 4
+              assign lazy_images = false
+            endif
+          -%}
+          {% render 'product-card', product: product, lazy: lazy_images %}
         {%- endfor -%}
       </div>
 

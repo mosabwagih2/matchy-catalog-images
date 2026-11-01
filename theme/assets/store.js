@@ -617,7 +617,7 @@ function setupMotion() {
 
 function bindEvents() {
   document.addEventListener('click', async event => {
-    const button = event.target.closest('button,a');
+    const button = event.target.closest?.('button,a');
     if (!button) return;
 
     if (button.hasAttribute('data-panel')) {
@@ -771,13 +771,13 @@ function bindEvents() {
       updateVariant();
     }
     if (event.target.id === 'collection-sort') {
-      event.target.closest('form')?.submit();
+      event.target.closest?.('form')?.submit();
     }
   });
 
   /* Colour swatch keyboard support. */
   document.addEventListener('keydown', event => {
-    const group = event.target.closest('.color-options');
+    const group = event.target.closest?.('.color-options');
     if (!group) return;
     if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
     event.preventDefault();
