@@ -1,0 +1,44 @@
+/* MATCHY UI polish: tactile press buttons (Plinth), pill controls (Cirrus), frosted glass (Aether). Motion is transform/opacity only. */
+
+/* Tactile press buttons */
+.pill{box-shadow:0 4px 0 #3b3b3b;transition:background .25s,transform .18s,box-shadow .18s}
+.pill:disabled,.pill[disabled]{box-shadow:none;transform:none}
+@media(hover:hover){.pill:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 6px 0 #3b3b3b}}
+.pill:not(:disabled):active{transform:translateY(3px);box-shadow:0 1px 0 #3b3b3b}
+.pill[style*="background:#fff"],.matchy-hero .pill.light{box-shadow:0 4px 0 #cfcfcf}
+
+/* Frosted glass surfaces */
+.header{background:rgba(255,255,255,.82);-webkit-backdrop-filter:saturate(180%) blur(14px);backdrop-filter:saturate(180%) blur(14px)}
+.sticky-buy{background:rgba(255,255,255,.86);-webkit-backdrop-filter:saturate(180%) blur(14px);backdrop-filter:saturate(180%) blur(14px)}
+.overlay{background:rgba(17,17,17,.32);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.toast{background:rgba(17,17,17,.86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-radius:999px;padding:12px 24px}
+.card-tools .icon-btn{background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+
+/* Product cards: soft rounded media that lifts on hover */
+.product-image{border-radius:14px;overflow:hidden;transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+@media(hover:hover){.product-card:hover .product-image{transform:translateY(-4px);box-shadow:0 18px 32px -16px rgba(0,0,0,.28)}}
+.sale-badge{border-radius:999px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+
+/* Pill controls */
+.size-options span{border-radius:999px;padding-inline:18px;transition:background .2s,color .2s,border-color .2s,transform .15s,box-shadow .2s}
+@media(hover:hover){.size-options label:hover span{border-color:#111}}
+.size-options label:active span{transform:scale(.96)}
+.size-options input:checked+span{box-shadow:0 3px 0 #3b3b3b}
+.mother-size label input:disabled+span{box-shadow:0 3px 0 #3b3b3b}
+.color-option{transition:transform .2s var(--ease),box-shadow .2s}
+@media(hover:hover){.color-option:hover{transform:scale(1.14)}}
+.color-option.active{box-shadow:0 0 0 2px #111}
+.quantity-input{background:#faf7f5;border-color:transparent}
+.quantity-input button{width:38px;height:38px;border-radius:50%;transition:background .2s,transform .15s}
+@media(hover:hover){.quantity-input button:hover{background:#fff}}
+.quantity-input button:active{transform:scale(.9)}
+
+/* Cart: hairline cards */
+.cart-item{border:1px solid #eee;border-radius:14px;padding:12px;margin-bottom:12px;background:#fff}
+.cart-item img{border-radius:10px}
+.cart-quantity button{border-radius:50%}
+
+/* Consistent keyboard focus */
+:focus-visible{outline:2px solid #111;outline-offset:3px}
+
+@media(prefers-reduced-motion:reduce){.pill,.product-image,.color-option,.size-options span,.quantity-input button{transition:none!important;transform:none!important}}
